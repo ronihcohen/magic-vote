@@ -30,7 +30,6 @@ install:
 
 script:
   - firebase-ci createConfig
-  - npm run lint
   - npm run build
 
 env:

@@ -1,9 +1,9 @@
 {
   "projects": {
-    "dev": "redux-firebasev3",
-    "stage": "redux-firebasev3",
-    "master": "redux-firebasev3",
-    "prod": "redux-firebasev3"
+    "dev": "magic-vote",
+    "stage": "magic-vote",
+    "master": "magic-vote",
+    "prod": "magic-vote"
   },
   "ci": {
     "createConfig": {
@@ -11,11 +11,11 @@
         "version": "${npm_package_version}",
         "env": "development",
         "firebase": {
-          "apiKey": "AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots",
-          "authDomain": "redux-firebasev3.firebaseapp.com",
-          "databaseURL": "https://redux-firebasev3.firebaseio.com",
-          "projectId": "redux-firebasev3",
-          "storageBucket": "redux-firebasev3.appspot.com"
+          "apiKey": "AIzaSyDSotzZRT7uigJOltCmN9-_chDoy_g7JE8",
+          "authDomain": "magic-vote.firebaseapp.com",
+          "databaseURL": "https://magic-vote.firebaseio.com",
+          "projectId": "magic-vote",
+          "storageBucket": "magic-vote.appspot.com"
         },
         "reduxFirebase": {
           "userProfile": "users",
@@ -28,10 +28,10 @@
         "env": "production",
         "firebase": {
           "apiKey": "AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots",
-          "authDomain": "redux-firebasev3.firebaseapp.com",
-          "databaseURL": "https://redux-firebasev3.firebaseio.com",
-          "projectId": "redux-firebasev3",
-          "storageBucket": "redux-firebasev3.appspot.com"
+          "authDomain": "magic-vote.firebaseapp.com",
+          "databaseURL": "https://magic-vote.firebaseio.com",
+          "projectId": "magic-vote",
+          "storageBucket": "magic-vote.appspot.com"
         },
         "reduxFirebase": {
           "userProfile": "users",
