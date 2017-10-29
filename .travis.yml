@@ -26,6 +26,7 @@ cache:
 install:
   - npm set progress=false
   - npm i
+  - npm i -g firebase-tools
   - npm i -g firebase-ci
 
 script:
