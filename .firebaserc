@@ -13,9 +13,9 @@
         "firebase": {
           "apiKey": "AIzaSyDSotzZRT7uigJOltCmN9-_chDoy_g7JE8",
           "authDomain": "magic-vote.firebaseapp.com",
-          "databaseURL": "https://magic-vote.firebaseapp.com",
+          "databaseURL": "https://magic-vote.firebaseio.com",
           "projectId": "magic-vote",
-          "storageBucket": "magic-vote.appspot.com"
+          "storageBucket": "magic-vote.firebaseapp.com"
         },
         "reduxFirebase": {
           "userProfile": "users",
@@ -27,11 +27,11 @@
         "version": "${npm_package_version}",
         "env": "production",
         "firebase": {
-          "apiKey": "AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots",
+          "apiKey": "AIzaSyDSotzZRT7uigJOltCmN9-_chDoy_g7JE8",
           "authDomain": "magic-vote.firebaseapp.com",
-          "databaseURL": "https://magic-vote.firebaseapp.com",
+          "databaseURL": "https://magic-vote.firebaseio.com",
           "projectId": "magic-vote",
-          "storageBucket": "magic-vote.appspot.com"
+          "storageBucket": "magic-vote.firebaseapp.com"
         },
         "reduxFirebase": {
           "userProfile": "users",
