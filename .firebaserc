@@ -13,7 +13,7 @@
         "firebase": {
           "apiKey": "AIzaSyDSotzZRT7uigJOltCmN9-_chDoy_g7JE8",
           "authDomain": "magic-vote.firebaseapp.com",
-          "databaseURL": "https://magic-vote.firebaseio.com",
+          "databaseURL": "https://magic-vote.firebaseapp.com",
           "projectId": "magic-vote",
           "storageBucket": "magic-vote.appspot.com"
         },
@@ -29,7 +29,7 @@
         "firebase": {
           "apiKey": "AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots",
           "authDomain": "magic-vote.firebaseapp.com",
-          "databaseURL": "https://magic-vote.firebaseio.com",
+          "databaseURL": "https://magic-vote.firebaseapp.com",
           "projectId": "magic-vote",
           "storageBucket": "magic-vote.appspot.com"
         },
