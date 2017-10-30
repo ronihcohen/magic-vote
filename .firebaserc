@@ -11,11 +11,12 @@
         "version": "${npm_package_version}",
         "env": "development",
         "firebase": {
-          "apiKey": "AIzaSyDSotzZRT7uigJOltCmN9-_chDoy_g7JE8",
-          "authDomain": "magic-vote.firebaseapp.com",
+          "apiKey": "AIzaSyCAWt6BS6-XryIA22S9YCfZMQw_pPF1unA",
+          "authDomain": "localhost:3000",
           "databaseURL": "https://magic-vote.firebaseio.com",
           "projectId": "magic-vote",
-          "storageBucket": "magic-vote.firebaseapp.com"
+          "storageBucket": "magic-vote.appspot.com",
+          "messagingSenderId": "631430882984"
         },
         "reduxFirebase": {
           "userProfile": "users",
@@ -27,11 +28,12 @@
         "version": "${npm_package_version}",
         "env": "production",
         "firebase": {
-          "apiKey": "AIzaSyDSotzZRT7uigJOltCmN9-_chDoy_g7JE8",
+          "apiKey": "AIzaSyCAWt6BS6-XryIA22S9YCfZMQw_pPF1unA",
           "authDomain": "magic-vote.firebaseapp.com",
           "databaseURL": "https://magic-vote.firebaseio.com",
           "projectId": "magic-vote",
-          "storageBucket": "magic-vote.firebaseapp.com"
+          "storageBucket": "magic-vote.appspot.com",
+          "messagingSenderId": "631430882984"
         },
         "reduxFirebase": {
           "userProfile": "users",

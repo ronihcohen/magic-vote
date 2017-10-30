@@ -11,13 +11,15 @@ module.exports = {
   development: config => ({
     compiler_public_path: `http://${config.server_host}:${config.server_port}/`,
     firebase: {
-      apiKey: 'AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots',
-      authDomain: 'redux-firebasev3.firebaseapp.com',
-      databaseURL: 'https://redux-firebasev3.firebaseio.com',
-      storageBucket: 'redux-firebasev3.appspot.com'
+      apiKey: "AIzaSyCAWt6BS6-XryIA22S9YCfZMQw_pPF1unA",
+      authDomain: "magic-vote.firebaseapp.com",
+      databaseURL: "https://magic-vote.firebaseio.com",
+      projectId: "magic-vote",
+      storageBucket: "magic-vote.appspot.com",
+      messagingSenderId: "631430882984"
     },
     reduxFirebase: {
-      userProfile: 'users', // root that user profiles are written to
+      userProfile: "users", // root that user profiles are written to
       enableLogging: false, // enable/disable Firebase Database Logging
       updateProfileOnLogin: false // enable/disable updating of profile on login
       // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
@@ -28,9 +30,9 @@ module.exports = {
   // Overrides when NODE_ENV === 'production'
   // ======================================================
   production: config => ({
-    compiler_public_path: '/',
+    compiler_public_path: "/",
     compiler_fail_on_warning: false,
-    compiler_hash_type: 'chunkhash',
+    compiler_hash_type: "chunkhash",
     compiler_devtool: null,
     compiler_stats: {
       chunks: true,
@@ -38,16 +40,18 @@ module.exports = {
       colors: true
     },
     firebase: {
-      apiKey: 'AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots',
-      authDomain: 'redux-firebasev3.firebaseapp.com',
-      databaseURL: 'https://redux-firebasev3.firebaseio.com',
-      storageBucket: 'redux-firebasev3.appspot.com'
+      apiKey: "AIzaSyCAWt6BS6-XryIA22S9YCfZMQw_pPF1unA",
+      authDomain: "magic-vote.firebaseapp.com",
+      databaseURL: "https://magic-vote.firebaseio.com",
+      projectId: "magic-vote",
+      storageBucket: "magic-vote.appspot.com",
+      messagingSenderId: "631430882984"
     },
     reduxFirebase: {
-      userProfile: 'users', // root that user profiles are written to
+      userProfile: "users", // root that user profiles are written to
       enableLogging: false, // enable/disable Firebase Database Logging
       updateProfileOnLogin: false // enable/disable updating of profile on login
       // profileDecorator: (userData) => ({ email: userData.email }) // customize format of user profile
     }
   })
-}
+};

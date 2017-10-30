@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { map } from "lodash";
 import Theme from "theme";
+import NewOptionPanel from "../components/NewOptionPanel";
+
 import {
   firebaseConnect,
   isLoaded,
@@ -74,17 +76,8 @@ export default class Options extends Component {
     });
   };
 
-  handleAdd = newTodo => {
-    // Attach user if logged in
-    if (this.props.auth) {
-      newTodo.owner = this.props.auth.uid;
-    } else {
-      newTodo.owner = "Anonymous";
-    }
-    // attach a timestamp
-    newTodo.createdAt = this.props.firebase.database.ServerValue.TIMESTAMP;
-    // using this.props.firebase.pushWithMeta here instead would automatically attach createdBy and createdAt
-    return this.props.firebase.push("/todos", newTodo);
+  handleAdd = option => {
+    return this.props.firebase.push("/options", option);
   };
 
   render() {
@@ -106,6 +99,8 @@ export default class Options extends Component {
         ) : null}
 
         <div className={classes.todos}>
+          <NewOptionPanel onNewClick={this.handleAdd} disabled={false} />
+
           {!isLoaded(options) ? (
             <CircularProgress />
           ) : (

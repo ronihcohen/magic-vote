@@ -1,5 +1,5 @@
-const ip = require('ip')
-const NODE_ENV = process.env.NODE_ENV || 'development'
+const ip = require("ip");
+const NODE_ENV = process.env.NODE_ENV || "development";
 
 module.exports = {
   /** The environment to use when building the project */
@@ -7,13 +7,13 @@ module.exports = {
   /** The full path to the project's root directory */
   basePath: __dirname,
   /** The name of the directory containing the application source code */
-  srcDir: 'src',
+  srcDir: "src",
   /** The file name of the application's entry point */
-  main: 'main',
+  main: "main",
   /** The name of the directory in which to emit compiled assets */
-  outDir: 'dist',
+  outDir: "dist",
   /** The base path for all projects assets (relative to the website root) */
-  publicPath: NODE_ENV === 'development' ? `http://${ip.address()}:3000/` : '/',
+  publicPath: NODE_ENV === "development" ? `http://${ip.address()}:3000/` : "/",
   /** Whether to generate sourcemaps */
   sourcemaps: true,
   /** A hash map of keys that the compiler should treat as external to the project */
@@ -24,14 +24,14 @@ module.exports = {
   verbose: false,
   /** The list of modules to bundle separately from the core application code */
   vendors: [
-    'react',
-    'react-dom',
-    'redux',
-    'react-redux',
-    'redux-thunk',
-    'react-router',
-    'react-redux-firebase',
-    'material-ui'
+    "react",
+    "react-dom",
+    "redux",
+    "react-redux",
+    "redux-thunk",
+    "react-router",
+    "react-redux-firebase",
+    "material-ui"
   ],
   /**
    * Settings used to create config.js file when running npm run create-config
@@ -41,29 +41,33 @@ module.exports = {
   ci: {
     development: {
       firebase: {
-        apiKey: 'AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots',
-        authDomain: 'redux-firebasev3.firebaseapp.com',
-        databaseURL: 'https://redux-firebasev3.firebaseio.com',
-        storageBucket: 'redux-firebasev3.appspot.com'
+        apiKey: "AIzaSyCAWt6BS6-XryIA22S9YCfZMQw_pPF1unA",
+        authDomain: "magic-vote.firebaseapp.com",
+        databaseURL: "https://magic-vote.firebaseio.com",
+        projectId: "magic-vote",
+        storageBucket: "magic-vote.appspot.com",
+        messagingSenderId: "631430882984"
       },
       reduxFirebase: {
-        userProfile: 'users', // root that user profiles are written to
+        userProfile: "users", // root that user profiles are written to
         enableLogging: false, // enable/disable Firebase Database Logging
         updateProfileOnLogin: false // enable/disable updating of profile on login
       }
     },
     production: {
       firebase: {
-        apiKey: 'AIzaSyCTUERDM-Pchn_UDTsfhVPiwM4TtNIxots',
-        authDomain: 'redux-firebasev3.firebaseapp.com',
-        databaseURL: 'https://redux-firebasev3.firebaseio.com',
-        storageBucket: 'redux-firebasev3.appspot.com'
+        apiKey: "AIzaSyCAWt6BS6-XryIA22S9YCfZMQw_pPF1unA",
+        authDomain: "magic-vote.firebaseapp.com",
+        databaseURL: "https://magic-vote.firebaseio.com",
+        projectId: "magic-vote",
+        storageBucket: "magic-vote.appspot.com",
+        messagingSenderId: "631430882984"
       },
       reduxFirebase: {
-        userProfile: 'users',
+        userProfile: "users",
         enableLogging: false,
         updateProfileOnLogin: false
       }
     }
   }
-}
+};

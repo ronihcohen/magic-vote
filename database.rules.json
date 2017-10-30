@@ -1,7 +1,7 @@
 {
   "rules": {
-    ".read": "auth !== null",
-    ".write":"auth !== null",
+    ".read": "true",
+    ".write": "auth.uid === 'qF2gLSwjSXRdstWCxwHw4t9gFNA3'",
     "users": {
       "$uid": {
         ".write": "auth !== null && $uid === auth.uid"

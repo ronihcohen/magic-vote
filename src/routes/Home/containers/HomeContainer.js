@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { map } from 'lodash'
-import Theme from 'theme'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { map } from "lodash";
+import Theme from "theme";
 import {
   firebaseConnect,
   isLoaded,
@@ -10,29 +10,29 @@ import {
   dataToJS // needed for full list and once
   // orderedToJS, // needed for ordered list
   // populatedDataToJS // needed for populated list
-} from 'react-redux-firebase'
-import CircularProgress from 'material-ui/CircularProgress'
-import Snackbar from 'material-ui/Snackbar'
-import { List } from 'material-ui/List'
-import Paper from 'material-ui/Paper'
-import Subheader from 'material-ui/Subheader'
-import TodoItem from '../components/TodoItem'
-import NewTodoPanel from '../components/NewTodoPanel'
-import classes from './HomeContainer.scss'
+} from "react-redux-firebase";
+import CircularProgress from "material-ui/CircularProgress";
+import Snackbar from "material-ui/Snackbar";
+import { List } from "material-ui/List";
+import Paper from "material-ui/Paper";
+import Subheader from "material-ui/Subheader";
+import TodoItem from "../components/TodoItem";
+import NewTodoPanel from "../components/NewTodoPanel";
+import classes from "./HomeContainer.scss";
 
 // const populates = [{ child: 'owner', root: 'users', keyProp: 'uid' }]
 
 @firebaseConnect([
   // 'todos' // sync full list of todos
   // { path: 'todos', type: 'once' } // for loading once instead of binding
-  { path: 'todos', queryParams: ['orderByKey', 'limitToLast=5'] } // 10 most recent
+  { path: "todos", queryParams: ["orderByKey", "limitToLast=5"] } // 10 most recent
   // { path: 'todos', populates } // populate
   // { path: 'todos', storeAs: 'myTodos' } // store elsewhere in redux
 ])
 @connect(({ firebase }) => ({
-  auth: pathToJS(firebase, 'auth'),
-  account: pathToJS(firebase, 'profile'),
-  todos: dataToJS(firebase, 'todos')
+  auth: pathToJS(firebase, "auth"),
+  account: pathToJS(firebase, "profile"),
+  todos: dataToJS(firebase, "todos")
   // todos: orderedToJS(firebase, 'todos') // if looking for array
   // todos: dataToJS(firebase, 'myTodos'), // if using storeAs
   // todos: populatedDataToJS(firebase, 'todos', populates), // if populating
@@ -53,58 +53,59 @@ export default class Home extends Component {
     auth: PropTypes.shape({
       uid: PropTypes.string
     })
-  }
+  };
 
   state = {
     error: null
-  }
+  };
 
   toggleDone = (todo, id) => {
-    const { firebase, auth } = this.props
+    const { firebase, auth } = this.props;
     if (!auth || !auth.uid) {
-      return this.setState({ error: 'You must be Logged into Toggle Done' })
+      return this.setState({ error: "You must be Logged into Toggle Done" });
     }
-    return firebase.set(`/todos/${id}/done`, !todo.done)
-  }
+    return firebase.set(`/todos/${id}/done`, !todo.done);
+  };
 
   deleteTodo = id => {
-    const { todos, auth, firebase } = this.props
+    const { todos, auth, firebase } = this.props;
     if (!auth || !auth.uid) {
-      return this.setState({ error: 'You must be Logged into Delete' })
+      return this.setState({ error: "You must be Logged into Delete" });
     }
     // return this.setState({ error: 'Delete example requires using populate' })
     // only works if populated
     if (todos[id].owner !== auth.uid) {
-      return this.setState({ error: 'You must own todo to delete' })
+      return this.setState({ error: "You must own todo to delete" });
     }
     return firebase.remove(`/todos/${id}`).catch(err => {
-      console.error('Error removing todo: ', err) // eslint-disable-line no-console
-      this.setState({ error: 'Error Removing todo' })
-      return Promise.reject(err)
-    })
-  }
+      console.error("Error removing todo: ", err); // eslint-disable-line no-console
+      this.setState({ error: "Error Removing todo" });
+      return Promise.reject(err);
+    });
+  };
 
   handleAdd = newTodo => {
     // Attach user if logged in
     if (this.props.auth) {
-      newTodo.owner = this.props.auth.uid
+      newTodo.owner = this.props.auth.uid;
     } else {
-      newTodo.owner = 'Anonymous'
+      newTodo.owner = "Anonymous";
     }
     // attach a timestamp
-    newTodo.createdAt = this.props.firebase.database.ServerValue.TIMESTAMP
+    newTodo.createdAt = this.props.firebase.database.ServerValue.TIMESTAMP;
     // using this.props.firebase.pushWithMeta here instead would automatically attach createdBy and createdAt
-    return this.props.firebase.push('/todos', newTodo)
-  }
+    return this.props.firebase.push("/todos", newTodo);
+  };
 
   render() {
-    const { todos } = this.props
-    const { error } = this.state
+    const { todos } = this.props;
+    const { error } = this.state;
 
     return (
       <div
         className={classes.container}
-        style={{ color: Theme.palette.primary2Color }}>
+        style={{ color: Theme.palette.primary2Color }}
+      >
         {error ? (
           <Snackbar
             open={!!error}
@@ -113,18 +114,7 @@ export default class Home extends Component {
             onRequestClose={() => this.setState({ error: null })}
           />
         ) : null}
-        <div className={classes.info}>
-          <span>data loaded from</span>
-          <span>
-            <a href="https://redux-firebasev3.firebaseio.com/">
-              redux-firebasev3.firebaseio.com
-            </a>
-          </span>
-          <span style={{ marginTop: '2rem' }}>
-            <strong>Note: </strong>
-            old data is removed
-          </span>
-        </div>
+
         <div className={classes.todos}>
           <NewTodoPanel onNewClick={this.handleAdd} disabled={false} />
           {!isLoaded(todos) ? (
@@ -148,6 +138,6 @@ export default class Home extends Component {
           )}
         </div>
       </div>
-    )
+    );
   }
 }
