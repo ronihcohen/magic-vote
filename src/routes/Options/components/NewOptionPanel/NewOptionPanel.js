@@ -4,10 +4,19 @@ import IconButton from "material-ui/IconButton";
 import Paper from "material-ui/Paper";
 import TextField from "material-ui/TextField";
 import ContentAdd from "material-ui/svg-icons/content/add";
+import ContentSave from "material-ui/svg-icons/content/save";
+
 import Subheader from "material-ui/Subheader";
 import classes from "./NewOptionPanel.scss";
 
 export default class NewOptionPanel extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      text: ""
+    };
+  }
+
   static propTypes = {
     onNewClick: PropTypes.func,
     disabled: PropTypes.bool
@@ -15,7 +24,10 @@ export default class NewOptionPanel extends Component {
 
   handleAdd = () => {
     const { text } = this.state;
+    const { newOption } = this.refs;
+
     this.props.onNewClick(text);
+    this.setState({ text: "" });
   };
 
   render() {
@@ -23,20 +35,28 @@ export default class NewOptionPanel extends Component {
 
     return (
       <Paper className={classes.container}>
-        <Subheader>New Todo</Subheader>
         <div className={classes.inputSection}>
           <TextField
-            floatingLabelText="New Todo Text"
-            ref="newTodo"
+            value={this.state.text}
+            floatingLabelText="New Option"
             onChange={({ target }) => this.setState({ text: target.value })}
           />
           <IconButton
             onClick={this.handleAdd}
             disabled={disabled}
             tooltipPosition="top-center"
-            tooltip={disabled ? "Login To Add Todo" : "Add Todo"}
+            tooltip={disabled ? "Login To Add Option" : "Add Option"}
           >
             <ContentAdd />
+          </IconButton>
+          <TextField
+            value={this.state.numberOfSelectedOptions}
+            floatingLabelText="Number of selected options"
+            type="number"
+            onChange={({ target }) => this.setState({ text: target.value })}
+          />
+          <IconButton onClick={this.handleAdd}>
+            <ContentSave />
           </IconButton>
         </div>
       </Paper>

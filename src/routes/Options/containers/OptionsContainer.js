@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { map } from "lodash";
 import Theme from "theme";
 import NewOptionPanel from "../components/NewOptionPanel";
+import OptionItem from "../components/OptionItem";
 
 import {
   firebaseConnect,
@@ -23,9 +24,9 @@ import classes from "./OptionsContainer.scss";
 // const populates = [{ child: 'owner', root: 'users', keyProp: 'uid' }]
 
 @firebaseConnect([
-  // 'todos' // sync full list of todos
+  { path: "options", queryParams: ["orderByKey"] }
   // { path: 'todos', type: 'once' } // for loading once instead of binding
-  { path: "options", queryParams: ["orderByKey", "limitToLast=5"] } // 10 most recent
+  // { path: "options", queryParams: ["orderByKey", "limitToLast=5"] } // 10 most recent
   // { path: 'todos', populates } // populate
   // { path: 'todos', storeAs: 'myTodos' } // store elsewhere in redux
 ])
@@ -60,16 +61,9 @@ export default class Options extends Component {
   };
 
   deleteTodo = id => {
-    const { todos, auth, firebase } = this.props;
-    if (!auth || !auth.uid) {
-      return this.setState({ error: "You must be Logged into Delete" });
-    }
-    // return this.setState({ error: 'Delete example requires using populate' })
-    // only works if populated
-    if (todos[id].owner !== auth.uid) {
-      return this.setState({ error: "You must own todo to delete" });
-    }
-    return firebase.remove(`/todos/${id}`).catch(err => {
+    const { firebase } = this.props;
+
+    return firebase.remove(`/options/${id}`).catch(err => {
       console.error("Error removing todo: ", err); // eslint-disable-line no-console
       this.setState({ error: "Error Removing todo" });
       return Promise.reject(err);
@@ -107,7 +101,15 @@ export default class Options extends Component {
             <Paper className={classes.paper}>
               <Subheader>Options</Subheader>
               <List className={classes.list}>
-                {options && map(options, (option, id) => <span>{option}</span>)}
+                {options &&
+                  map(options, (option, id) => (
+                    <OptionItem
+                      key={id}
+                      id={id}
+                      option={option}
+                      onDeleteClick={this.deleteTodo}
+                    />
+                  ))}
               </List>
             </Paper>
           )}

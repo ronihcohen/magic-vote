@@ -1,3 +1,3 @@
-import TodoItem from './TodoItem'
+import OptionItem from "./OptionItem";
 
-export default TodoItem
+export default OptionItem;
