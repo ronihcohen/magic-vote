@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { map, filter, find } from "lodash";
 import Theme from "theme";
+import { browserHistory } from "react-router";
+
 import {
   firebaseConnect,
   isLoaded,
@@ -77,13 +79,18 @@ export default class Home extends Component {
       return Promise.reject(err);
     });
   }
-
+  componentWillMount() {
+    const { auth } = this.props;
+    if (!auth || !auth.uid) {
+      browserHistory.push("/login");
+    }
+  }
   render() {
     const { votes, options, auth } = this.props;
     const { error } = this.state;
 
     if (!auth || !auth.uid) {
-      return <div>Please login</div>;
+      return <Subheader>Please login</Subheader>;
     }
 
     const myVotes = votes && votes[auth.uid] ? votes[auth.uid] : {};
