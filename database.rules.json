@@ -6,6 +6,11 @@
       "$uid": {
         ".write": "auth !== null && $uid === auth.uid"
       }
+    },
+    "votes": {
+      "$uid": {
+        ".write": "auth !== null && $uid === auth.uid"
+      }
     }
   }
 }

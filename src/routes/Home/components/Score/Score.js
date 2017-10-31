@@ -48,7 +48,7 @@ export default class Score extends Component {
 
     return connectDropTarget(
       <div style={{ ...style, backgroundColor }}>
-        {isActive ? "Release to drop" : "Drag a box here"}
+        {isActive ? "Release to drop" : "Drag here your vote for score:"}
         <h1>{this.props.value}</h1>
         <h2>{this.props.option}</h2>
       </div>

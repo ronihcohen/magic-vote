@@ -13,11 +13,8 @@ import {
 } from "react-redux-firebase";
 import CircularProgress from "material-ui/CircularProgress";
 import Snackbar from "material-ui/Snackbar";
-import { List } from "material-ui/List";
-import Paper from "material-ui/Paper";
+import RaisedButton from "material-ui/RaisedButton";
 import Subheader from "material-ui/Subheader";
-import TodoItem from "../components/TodoItem";
-import NewTodoPanel from "../components/NewTodoPanel";
 
 import Score from "../components/Score";
 import Option from "../components/Option";
@@ -64,6 +61,15 @@ export default class Home extends Component {
     return firebase.set(`/votes/${auth.uid}/${index}/`, item.name);
   }
 
+  handleClean() {
+    const { auth, firebase } = this.props;
+    return firebase.remove(`/votes/${auth.uid}`).catch(err => {
+      console.error("Error cleaning votes: ", err); // eslint-disable-line no-console
+      this.setState({ error: "Error cleaning todo" });
+      return Promise.reject(err);
+    });
+  }
+
   render() {
     const { votes, auth } = this.props;
     const { error } = this.state;
@@ -72,7 +78,7 @@ export default class Home extends Component {
       return <div>Please login</div>;
     }
 
-    const myVotes = votes[auth.uid];
+    const myVotes = votes && votes[auth.uid] ? votes[auth.uid] : {};
 
     return (
       <DragDropContextProvider backend={HTML5Backend}>
@@ -80,18 +86,24 @@ export default class Home extends Component {
           className={classes.container}
           style={{ color: Theme.palette.primary2Color }}
         >
-          <Option name="Banana" />
-          <Option name="Tomato" />
-
-          <Score
-            value={1}
-            onDrop={item => this.handleDrop(1, item)}
-            option={myVotes[1]}
-          />
-          <Score
-            value={2}
-            onDrop={item => this.handleDrop(2, item)}
-            option={myVotes[2]}
+          <div>
+            <Option name="Banana" />
+            <Option name="Tomato" />
+          </div>
+          <div>
+            {[...Array(3)].map((x, i) => (
+              <Score
+                key={i + 1}
+                value={i + 1}
+                onDrop={item => this.handleDrop(i + 1, item)}
+                option={myVotes[i + 1]}
+              />
+            ))}
+          </div>
+          <RaisedButton
+            label="Clean votes"
+            secondary={true}
+            onClick={() => this.handleClean()}
           />
         </div>
       </DragDropContextProvider>
