@@ -12,7 +12,7 @@
         "env": "development",
         "firebase": {
           "apiKey": "AIzaSyCAWt6BS6-XryIA22S9YCfZMQw_pPF1unA",
-          "authDomain": "localhost:3000",
+          "authDomain": "magic-vote.firebaseapp.com",
           "databaseURL": "https://magic-vote.firebaseio.com",
           "projectId": "magic-vote",
           "storageBucket": "magic-vote.appspot.com",
