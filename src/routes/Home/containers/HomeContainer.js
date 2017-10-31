@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { map } from "lodash";
+import { map, filter, find } from "lodash";
 import Theme from "theme";
 import {
   firebaseConnect,
@@ -25,15 +25,23 @@ import classes from "./HomeContainer.scss";
 
 // const populates = [{ child: 'owner', root: 'users', keyProp: 'uid' }]
 
-@firebaseConnect([{ path: "votes" }])
+@firebaseConnect([
+  { path: "votes" },
+  { path: "options", queryParams: ["orderByKey"] }
+])
 @connect(({ firebase }) => ({
   auth: pathToJS(firebase, "auth"),
   account: pathToJS(firebase, "profile"),
-  votes: dataToJS(firebase, "votes")
+  votes: dataToJS(firebase, "votes"),
+  options: dataToJS(firebase, "options")
 }))
 export default class Home extends Component {
   static propTypes = {
     votes: PropTypes.oneOfType([
+      PropTypes.object, // object if using dataToJS
+      PropTypes.array // array if using orderedToJS
+    ]),
+    options: PropTypes.oneOfType([
       PropTypes.object, // object if using dataToJS
       PropTypes.array // array if using orderedToJS
     ]),
@@ -71,7 +79,7 @@ export default class Home extends Component {
   }
 
   render() {
-    const { votes, auth } = this.props;
+    const { votes, options, auth } = this.props;
     const { error } = this.state;
 
     if (!auth || !auth.uid) {
@@ -79,6 +87,10 @@ export default class Home extends Component {
     }
 
     const myVotes = votes && votes[auth.uid] ? votes[auth.uid] : {};
+    const filteredOptions = filter(
+      options,
+      (option, id) => !find(myVotes, (vote, id) => vote === option)
+    );
 
     return (
       <DragDropContextProvider backend={HTML5Backend}>
@@ -87,8 +99,10 @@ export default class Home extends Component {
           style={{ color: Theme.palette.primary2Color }}
         >
           <div>
-            <Option name="Banana" />
-            <Option name="Tomato" />
+            {filteredOptions &&
+              map(filteredOptions, (option, id) => (
+                <Option name={option} key={id} />
+              ))}
           </div>
           <div>
             {[...Array(3)].map((x, i) => (
