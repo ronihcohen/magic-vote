@@ -18,29 +18,25 @@ import Paper from "material-ui/Paper";
 import Subheader from "material-ui/Subheader";
 import TodoItem from "../components/TodoItem";
 import NewTodoPanel from "../components/NewTodoPanel";
+
+import Score from "../components/Score";
+import Option from "../components/Option";
+import { DragDropContextProvider } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
+
 import classes from "./HomeContainer.scss";
 
 // const populates = [{ child: 'owner', root: 'users', keyProp: 'uid' }]
 
-@firebaseConnect([
-  // 'todos' // sync full list of todos
-  // { path: 'todos', type: 'once' } // for loading once instead of binding
-  { path: "todos", queryParams: ["orderByKey", "limitToLast=5"] } // 10 most recent
-  // { path: 'todos', populates } // populate
-  // { path: 'todos', storeAs: 'myTodos' } // store elsewhere in redux
-])
+@firebaseConnect([{ path: "votes" }])
 @connect(({ firebase }) => ({
   auth: pathToJS(firebase, "auth"),
   account: pathToJS(firebase, "profile"),
-  todos: dataToJS(firebase, "todos")
-  // todos: orderedToJS(firebase, 'todos') // if looking for array
-  // todos: dataToJS(firebase, 'myTodos'), // if using storeAs
-  // todos: populatedDataToJS(firebase, 'todos', populates), // if populating
-  // todos: orderedToJS(firebase, '/todos') // if using ordering such as orderByChild
+  votes: dataToJS(firebase, "votes")
 }))
 export default class Home extends Component {
   static propTypes = {
-    todos: PropTypes.oneOfType([
+    votes: PropTypes.oneOfType([
       PropTypes.object, // object if using dataToJS
       PropTypes.array // array if using orderedToJS
     ]),
@@ -59,85 +55,46 @@ export default class Home extends Component {
     error: null
   };
 
-  toggleDone = (todo, id) => {
-    const { firebase, auth } = this.props;
+  handleDrop(index, item) {
+    const { auth, firebase } = this.props;
     if (!auth || !auth.uid) {
       return this.setState({ error: "You must be Logged into Toggle Done" });
     }
-    return firebase.set(`/todos/${id}/done`, !todo.done);
-  };
 
-  deleteTodo = id => {
-    const { todos, auth, firebase } = this.props;
-    if (!auth || !auth.uid) {
-      return this.setState({ error: "You must be Logged into Delete" });
-    }
-    // return this.setState({ error: 'Delete example requires using populate' })
-    // only works if populated
-    if (todos[id].owner !== auth.uid) {
-      return this.setState({ error: "You must own todo to delete" });
-    }
-    return firebase.remove(`/todos/${id}`).catch(err => {
-      console.error("Error removing todo: ", err); // eslint-disable-line no-console
-      this.setState({ error: "Error Removing todo" });
-      return Promise.reject(err);
-    });
-  };
-
-  handleAdd = newTodo => {
-    // Attach user if logged in
-    if (this.props.auth) {
-      newTodo.owner = this.props.auth.uid;
-    } else {
-      newTodo.owner = "Anonymous";
-    }
-    // attach a timestamp
-    newTodo.createdAt = this.props.firebase.database.ServerValue.TIMESTAMP;
-    // using this.props.firebase.pushWithMeta here instead would automatically attach createdBy and createdAt
-    return this.props.firebase.push("/todos", newTodo);
-  };
+    return firebase.set(`/votes/${auth.uid}/${index}/`, item.name);
+  }
 
   render() {
-    const { todos } = this.props;
+    const { votes, auth } = this.props;
     const { error } = this.state;
 
-    return (
-      <div
-        className={classes.container}
-        style={{ color: Theme.palette.primary2Color }}
-      >
-        {error ? (
-          <Snackbar
-            open={!!error}
-            message={error}
-            autoHideDuration={4000}
-            onRequestClose={() => this.setState({ error: null })}
-          />
-        ) : null}
+    if (!auth || !auth.uid) {
+      return <div>Please login</div>;
+    }
 
-        <div className={classes.todos}>
-          <NewTodoPanel onNewClick={this.handleAdd} disabled={false} />
-          {!isLoaded(todos) ? (
-            <CircularProgress />
-          ) : (
-            <Paper className={classes.paper}>
-              <Subheader>Todos</Subheader>
-              <List className={classes.list}>
-                {todos &&
-                  map(todos, (todo, id) => (
-                    <TodoItem
-                      key={id}
-                      id={id}
-                      todo={todo}
-                      onCompleteClick={this.toggleDone}
-                      onDeleteClick={this.deleteTodo}
-                    />
-                  ))}
-              </List>
-            </Paper>
-          )}
+    const myVotes = votes[auth.uid];
+
+    return (
+      <DragDropContextProvider backend={HTML5Backend}>
+        <div
+          className={classes.container}
+          style={{ color: Theme.palette.primary2Color }}
+        >
+          <Option name="Banana" />
+          <Option name="Tomato" />
+
+          <Score
+            value={1}
+            onDrop={item => this.handleDrop(1, item)}
+            option={myVotes[1]}
+          />
+          <Score
+            value={2}
+            onDrop={item => this.handleDrop(2, item)}
+            option={myVotes[2]}
+          />
         </div>
-      </div>
+      </DragDropContextProvider>
     );
   }
 }
