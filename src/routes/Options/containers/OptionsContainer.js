@@ -24,7 +24,8 @@ import classes from "./OptionsContainer.scss";
 // const populates = [{ child: 'owner', root: 'users', keyProp: 'uid' }]
 
 @firebaseConnect([
-  { path: "options", queryParams: ["orderByKey"] }
+  { path: "options", queryParams: ["orderByKey"] },
+  { path: "optionsNumber" }
   // { path: 'todos', type: 'once' } // for loading once instead of binding
   // { path: "options", queryParams: ["orderByKey", "limitToLast=5"] } // 10 most recent
   // { path: 'todos', populates } // populate
@@ -33,7 +34,8 @@ import classes from "./OptionsContainer.scss";
 @connect(({ firebase }) => ({
   auth: pathToJS(firebase, "auth"),
   account: pathToJS(firebase, "profile"),
-  options: dataToJS(firebase, "options")
+  options: dataToJS(firebase, "options"),
+  optionsNumber: dataToJS(firebase, "optionsNumber")
   // todos: orderedToJS(firebase, 'todos') // if looking for array
   // todos: dataToJS(firebase, 'myTodos'), // if using storeAs
   // todos: populatedDataToJS(firebase, 'todos', populates), // if populating
@@ -74,8 +76,12 @@ export default class Options extends Component {
     return this.props.firebase.push("/options", option);
   };
 
+  handleSetNumber = number => {
+    return this.props.firebase.set("/optionsNumber", number);
+  };
+
   render() {
-    const { options } = this.props;
+    const { options, optionsNumber } = this.props;
     const { error } = this.state;
 
     return (
@@ -92,28 +98,35 @@ export default class Options extends Component {
           />
         ) : null}
 
-        <div className={classes.todos}>
-          <NewOptionPanel onNewClick={this.handleAdd} disabled={false} />
+        {isLoaded(optionsNumber) ? (
+          <div className={classes.todos}>
+            <NewOptionPanel
+              onSetNumber={this.handleSetNumber}
+              onNewClick={this.handleAdd}
+              disabled={false}
+              number={optionsNumber}
+            />
 
-          {!isLoaded(options) ? (
-            <CircularProgress />
-          ) : (
-            <Paper className={classes.paper}>
-              <Subheader>Options</Subheader>
-              <List className={classes.list}>
-                {options &&
-                  map(options, (option, id) => (
-                    <OptionItem
-                      key={id}
-                      id={id}
-                      option={option}
-                      onDeleteClick={this.deleteTodo}
-                    />
-                  ))}
-              </List>
-            </Paper>
-          )}
-        </div>
+            {!isLoaded(options) ? (
+              <CircularProgress />
+            ) : (
+              <Paper className={classes.paper}>
+                <Subheader>Options</Subheader>
+                <List className={classes.list}>
+                  {options &&
+                    map(options, (option, id) => (
+                      <OptionItem
+                        key={id}
+                        id={id}
+                        option={option}
+                        onDeleteClick={this.deleteTodo}
+                      />
+                    ))}
+                </List>
+              </Paper>
+            )}
+          </div>
+        ) : null}
       </div>
     );
   }

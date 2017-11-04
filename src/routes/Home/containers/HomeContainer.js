@@ -26,13 +26,15 @@ import classes from "./HomeContainer.scss";
 
 @firebaseConnect([
   { path: "votes" },
+  { path: "optionsNumber" },
   { path: "options", queryParams: ["orderByKey"] }
 ])
 @connect(({ firebase }) => ({
   auth: pathToJS(firebase, "auth"),
   account: pathToJS(firebase, "profile"),
   votes: dataToJS(firebase, "votes"),
-  options: dataToJS(firebase, "options")
+  options: dataToJS(firebase, "options"),
+  optionsNumber: dataToJS(firebase, "optionsNumber")
 }))
 export default class Home extends Component {
   static propTypes = {
@@ -83,7 +85,7 @@ export default class Home extends Component {
     }
   }
   render() {
-    const { votes, options, auth } = this.props;
+    const { votes, options, auth, optionsNumber } = this.props;
     const { error } = this.state;
 
     if (!auth || !auth.uid) {
@@ -96,8 +98,11 @@ export default class Home extends Component {
       (option, id) => !find(myVotes, (vote, id) => vote === option)
     );
 
-    const scoresArray = [...Array(3)];
-    return (
+    const scoresArray = optionsNumber
+      ? [...Array(parseInt(optionsNumber))]
+      : [];
+
+    return isLoaded(optionsNumber) ? (
       <div
         className={classes.container}
         style={{ color: Theme.palette.primary2Color }}
@@ -119,6 +124,6 @@ export default class Home extends Component {
           onClick={() => this.handleClean()}
         />
       </div>
-    );
+    ) : null;
   }
 }

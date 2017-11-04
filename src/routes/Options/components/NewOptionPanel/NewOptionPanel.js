@@ -31,11 +31,19 @@ export default class NewOptionPanel extends Component {
   };
 
   render() {
-    const { disabled } = this.props;
+    const { disabled, number } = this.props;
 
     return (
       <Paper className={classes.container}>
         <div className={classes.inputSection}>
+          <TextField
+            style={{ width: "70px", marginRight: "10px" }}
+            value={number}
+            floatingLabelText="# options"
+            type="number"
+            onChange={({ target }) => this.props.onSetNumber(target.value)}
+          />
+
           <TextField
             value={this.state.text}
             floatingLabelText="New Option"
@@ -48,15 +56,6 @@ export default class NewOptionPanel extends Component {
             tooltip={disabled ? "Login To Add Option" : "Add Option"}
           >
             <ContentAdd />
-          </IconButton>
-          <TextField
-            value={this.state.numberOfSelectedOptions}
-            floatingLabelText="Number of selected options"
-            type="number"
-            onChange={({ target }) => this.setState({ text: target.value })}
-          />
-          <IconButton onClick={this.handleAdd}>
-            <ContentSave />
           </IconButton>
         </div>
       </Paper>
