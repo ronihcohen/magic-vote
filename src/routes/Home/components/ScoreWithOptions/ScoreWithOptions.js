@@ -10,10 +10,14 @@ const ScoreWithOptions = ({ value, handleChange, options, selectedOption }) => {
   }
   return (
     <div className={classes.container}>
-      <div className={classes.score}>{value}</div>
+      <div className={classes.score}>
+        <span>{value}</span>
+        <br />
+        <span className={classes.points}>points</span>
+      </div>
       <SelectField
-        floatingLabelText="Options"
         value={selectedOption}
+        hintText={`Your vote for ${value} points!`}
         onChange={(event, index, option) => handleChange(value, option)}
       >
         {options.map(option => (

@@ -96,17 +96,18 @@ export default class Home extends Component {
       (option, id) => !find(myVotes, (vote, id) => vote === option)
     );
 
+    const scoresArray = [...Array(3)];
     return (
       <div
         className={classes.container}
         style={{ color: Theme.palette.primary2Color }}
       >
         <div>
-          {[...Array(3)].map((x, i) => (
+          {scoresArray.map((x, i) => (
             <ScoreWithOptions
-              key={i + 1}
-              value={i + 1}
-              selectedOption={myVotes[i + 1]}
+              key={scoresArray.length - i}
+              value={scoresArray.length - i}
+              selectedOption={myVotes[scoresArray.length - i]}
               options={filteredOptions}
               handleChange={this.handleChange}
             />
