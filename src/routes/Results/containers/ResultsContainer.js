@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { forEach, map } from "lodash";
+import { forEach, map, invert } from "lodash";
 import Theme from "theme";
 import Score from "../../Home/components/Score";
 
@@ -27,9 +27,13 @@ export default class Results extends Component {
 
     let results = {};
     forEach(votes, userVotes => {
-      forEach(userVotes, vote => {
-        if (vote)
-          results[vote] = results.hasOwnProperty(vote) ? results[vote] + 1 : 1;
+      forEach(userVotes, (val, key) => {
+        if (val) {
+          const scope = parseInt(key);
+          results[val] = results.hasOwnProperty(val)
+            ? results[val] + scope
+            : scope;
+        }
       });
     });
 
@@ -38,7 +42,7 @@ export default class Results extends Component {
         className={classes.container}
         style={{ color: Theme.palette.primary2Color }}
       >
-        {map(results, (value, score) => (
+        {map(invert(results), (score, value) => (
           <div className={classes.scoreRow} key={score}>
             <div className={classes.title}>{score}</div> <br />
             <Score value={value} />

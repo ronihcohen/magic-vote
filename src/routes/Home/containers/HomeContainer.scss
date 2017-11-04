@@ -2,6 +2,7 @@
 .container {
   @extend .flex-column-center;
   padding-top: 1rem;
+  padding-bottom: 5rem;
 }
 .scoreRow {
   @extend .flex-column-center;
