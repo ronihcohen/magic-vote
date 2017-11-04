@@ -107,8 +107,8 @@ export default class Home extends Component {
         className={classes.container}
         style={{ color: Theme.palette.primary2Color }}
       >
-        <div>
-          {scoresArray.map((x, i) => (
+        {scoresArray.map((x, i) => (
+          <div className={classes.scoreRow}>
             <ScoreWithOptions
               key={scoresArray.length - i}
               value={scoresArray.length - i}
@@ -116,13 +116,15 @@ export default class Home extends Component {
               options={filteredOptions}
               handleChange={this.handleChange}
             />
-          ))}
+          </div>
+        ))}
+        <div className={classes.scoreRow}>
+          <RaisedButton
+            label="Clean votes"
+            secondary={true}
+            onClick={() => this.handleClean()}
+          />
         </div>
-        <RaisedButton
-          label="Clean votes"
-          secondary={true}
-          onClick={() => this.handleClean()}
-        />
       </div>
     ) : null;
   }

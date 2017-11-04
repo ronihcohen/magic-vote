@@ -45,6 +45,7 @@ export default class NewOptionPanel extends Component {
           />
 
           <TextField
+            style={{ width: "150px" }}
             value={this.state.text}
             floatingLabelText="New Option"
             onChange={({ target }) => this.setState({ text: target.value })}
