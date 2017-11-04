@@ -18,10 +18,7 @@ import Snackbar from "material-ui/Snackbar";
 import RaisedButton from "material-ui/RaisedButton";
 import Subheader from "material-ui/Subheader";
 
-import Score from "../components/Score";
-import Option from "../components/Option";
-import { DragDropContextProvider } from "react-dnd";
-import HTML5Backend from "react-dnd-html5-backend";
+import ScoreWithOptions from "../components/ScoreWithOptions";
 
 import classes from "./HomeContainer.scss";
 
@@ -62,14 +59,14 @@ export default class Home extends Component {
     error: null
   };
 
-  handleDrop(index, item) {
+  handleChange = (score, option) => {
     const { auth, firebase } = this.props;
     if (!auth || !auth.uid) {
       return this.setState({ error: "You must be Logged into Toggle Done" });
     }
 
-    return firebase.set(`/votes/${auth.uid}/${index}/`, item.name);
-  }
+    return firebase.set(`/votes/${auth.uid}/${score}/`, option);
+  };
 
   handleClean() {
     const { auth, firebase } = this.props;
@@ -100,34 +97,27 @@ export default class Home extends Component {
     );
 
     return (
-      <DragDropContextProvider backend={HTML5Backend}>
-        <div
-          className={classes.container}
-          style={{ color: Theme.palette.primary2Color }}
-        >
-          <div>
-            {filteredOptions &&
-              map(filteredOptions, (option, id) => (
-                <Option name={option} key={id} />
-              ))}
-          </div>
-          <div>
-            {[...Array(3)].map((x, i) => (
-              <Score
-                key={i + 1}
-                value={i + 1}
-                onDrop={item => this.handleDrop(i + 1, item)}
-                option={myVotes[i + 1]}
-              />
-            ))}
-          </div>
-          <RaisedButton
-            label="Clean votes"
-            secondary={true}
-            onClick={() => this.handleClean()}
-          />
+      <div
+        className={classes.container}
+        style={{ color: Theme.palette.primary2Color }}
+      >
+        <div>
+          {[...Array(3)].map((x, i) => (
+            <ScoreWithOptions
+              key={i + 1}
+              value={i + 1}
+              selectedOption={myVotes[i + 1]}
+              options={filteredOptions}
+              handleChange={this.handleChange}
+            />
+          ))}
         </div>
-      </DragDropContextProvider>
+        <RaisedButton
+          label="Clean votes"
+          secondary={true}
+          onClick={() => this.handleClean()}
+        />
+      </div>
     );
   }
 }
