@@ -1,0 +1,22 @@
+@import "base";
+
+.score {
+  display: inline-block;
+
+  background: black;
+  width: 50px;
+  color: white;
+  border-radius: 30px;
+  text-align: center;
+  height: 50px;
+  line-height: 50px;
+  font-weight: 900;
+  font-size: 30px;
+}
+
+.points {
+  position: relative;
+  font-size: 15px;
+  bottom: 15px;
+  color: black;
+}

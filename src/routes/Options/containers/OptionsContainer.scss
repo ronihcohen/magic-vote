@@ -1,1 +1,5 @@
-
+@import "base";
+.container {
+  @extend .flex-column-center;
+  padding-top: 1rem;
+}

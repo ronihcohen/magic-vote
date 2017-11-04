@@ -1,0 +1,20 @@
+@import "base";
+.container {
+  @extend .flex-column-center;
+  padding-bottom: 5rem;
+}
+.scoreRow {
+  @extend .flex-column-center;
+  margin-top: 1rem;
+}
+.paper {
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.info {
+  @extend .flex-column-center;
+}
+.title {
+  font-size: larger;
+  margin-top: 60px;
+}

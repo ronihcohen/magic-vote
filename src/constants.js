@@ -4,6 +4,7 @@ export const ACCOUNT_PATH = "/account";
 export const LOGIN_PATH = "/login";
 export const SIGNUP_PATH = "/signup";
 export const OPTIONS_PATH = "/options";
+export const RESULTS_PATH = "/results";
 
 export const ACCOUNT_FORM_NAME = "account";
 export const LOGIN_FORM_NAME = "login";
