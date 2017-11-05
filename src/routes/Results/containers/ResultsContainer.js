@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { forEach, map, sortBy, size } from "lodash";
+import { forEach, map, sortBy, size, filter } from "lodash";
 import Theme from "theme";
 import Score from "../../Home/components/Score";
 import RaisedButton from "material-ui/RaisedButton";
+import Subheader from "material-ui/Subheader";
 
 import {
   firebaseConnect,
@@ -14,6 +15,18 @@ import {
 } from "react-redux-firebase";
 import classes from "./ResultsContainer.scss";
 import Paper from "material-ui/Paper";
+
+const getCurrentVote = (votes, maxVoters, votesLength) => {
+  let voters = 0;
+  let currentVote;
+  forEach(votes, userVotesObject => {
+    if (voters === maxVoters - 1) {
+      currentVote = userVotesObject;
+    }
+    voters++;
+  });
+  return currentVote;
+};
 
 const generateResults = (votes, maxVoters) => {
   let results = {};
@@ -62,9 +75,32 @@ export default class Results extends Component {
     if (!isLoaded(votes)) return null;
 
     const votesLength = size(votes);
-    let results = generateResults(votes, this.state.maxVoters);
+    let results = generateResults(votes, this.state.maxVoters, votesLength);
+    const currentVote = getCurrentVote(
+      votes,
+      this.state.maxVoters,
+      votesLength
+    );
+
     return (
       <div className={classes.container}>
+        <Subheader>Vote #{this.state.maxVoters}</Subheader>
+        <div
+          className={classes.scoreContainer}
+          style={{ color: Theme.palette.primary2Color }}
+        >
+          {currentVote.map(
+            (value, index) =>
+              value ? (
+                <div className={classes.score} key={index}>
+                  <div className={classes.title}>{value}</div> <br />
+                  <Score value={index} />
+                </div>
+              ) : null
+          )}
+        </div>
+        <Subheader>Total</Subheader>
+
         <div
           className={classes.scoreContainer}
           style={{ color: Theme.palette.primary2Color }}
