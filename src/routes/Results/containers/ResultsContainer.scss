@@ -1,20 +1,19 @@
-@import "base";
 .container {
-  @extend .flex-column-center;
+  text-align: center;
   padding-bottom: 5rem;
 }
-.scoreRow {
-  @extend .flex-column-center;
-  margin-top: 1rem;
+
+.scoreContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 5rem;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
-.paper {
-  padding: 1rem;
-  margin-bottom: 1rem;
-}
-.info {
-  @extend .flex-column-center;
-}
-.title {
-  font-size: larger;
-  margin-top: 60px;
+
+.score {
+  text-align: center;
+  padding: 20px 20px;
 }

@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { forEach, map, sortBy } from "lodash";
+import { forEach, map, sortBy, size } from "lodash";
 import Theme from "theme";
 import Score from "../../Home/components/Score";
+import RaisedButton from "material-ui/RaisedButton";
 
 import {
   firebaseConnect,
@@ -14,9 +15,14 @@ import {
 import classes from "./ResultsContainer.scss";
 import Paper from "material-ui/Paper";
 
-const generateResults = votes => {
+const generateResults = (votes, maxVoters) => {
   let results = {};
+  let voters = 0;
   forEach(votes, userVotesObject => {
+    if (voters >= maxVoters) {
+      return;
+    }
+    voters++;
     forEach(userVotesObject, (val, key) => {
       if (val) {
         const score = parseInt(key);
@@ -44,22 +50,42 @@ const generateResults = votes => {
   votes: dataToJS(firebase, "votes")
 }))
 export default class Results extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      maxVoters: 1
+    };
+  }
+
   render() {
     const { votes } = this.props;
     if (!isLoaded(votes)) return null;
 
-    let results = generateResults(votes);
+    const votesLength = size(votes);
+    let results = generateResults(votes, this.state.maxVoters);
     return (
-      <div
-        className={classes.container}
-        style={{ color: Theme.palette.primary2Color }}
-      >
-        {results.map((value, index) => (
-          <div className={classes.scoreRow} key={index}>
-            <div className={classes.title}>{value.option}</div> <br />
-            <Score value={value.score} />
-          </div>
-        ))}
+      <div className={classes.container}>
+        <div
+          className={classes.scoreContainer}
+          style={{ color: Theme.palette.primary2Color }}
+        >
+          {results.map((value, index) => (
+            <div className={classes.score} key={index}>
+              <div className={classes.title}>{value.option}</div> <br />
+              <Score value={value.score} />
+            </div>
+          ))}
+        </div>
+        <RaisedButton
+          label="Next"
+          primary={true}
+          disabled={this.state.maxVoters === votesLength}
+          onClick={() => {
+            this.setState({ maxVoters: this.state.maxVoters + 1 });
+          }}
+        />
+
+        <p>{`${this.state.maxVoters} of ${votesLength} votes`}</p>
       </div>
     );
   }
