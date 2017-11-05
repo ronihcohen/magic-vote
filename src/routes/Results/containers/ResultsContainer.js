@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { forEach, map, invert } from "lodash";
+import { forEach, map, sortBy } from "lodash";
 import Theme from "theme";
 import Score from "../../Home/components/Score";
 
@@ -14,6 +14,29 @@ import {
 import classes from "./ResultsContainer.scss";
 import Paper from "material-ui/Paper";
 
+const generateResults = votes => {
+  let results = {};
+  forEach(votes, userVotesObject => {
+    forEach(userVotesObject, (val, key) => {
+      if (val) {
+        const score = parseInt(key);
+        results[val] = results.hasOwnProperty(val)
+          ? results[val] + score
+          : score;
+      }
+    });
+  });
+  return sortBy(
+    map(results, (val, key) => {
+      return {
+        option: key,
+        score: val
+      };
+    }),
+    "score"
+  );
+};
+
 @firebaseConnect([{ path: "votes" }])
 @connect(({ firebase }) => ({
   auth: pathToJS(firebase, "auth"),
@@ -25,27 +48,16 @@ export default class Results extends Component {
     const { votes } = this.props;
     if (!isLoaded(votes)) return null;
 
-    let results = {};
-    forEach(votes, userVotes => {
-      forEach(userVotes, (val, key) => {
-        if (val) {
-          const scope = parseInt(key);
-          results[val] = results.hasOwnProperty(val)
-            ? results[val] + scope
-            : scope;
-        }
-      });
-    });
-
+    let results = generateResults(votes);
     return (
       <div
         className={classes.container}
         style={{ color: Theme.palette.primary2Color }}
       >
-        {map(invert(results), (score, value) => (
-          <div className={classes.scoreRow} key={score}>
-            <div className={classes.title}>{score}</div> <br />
-            <Score value={value} />
+        {results.map((value, index) => (
+          <div className={classes.scoreRow} key={index}>
+            <div className={classes.title}>{value.option}</div> <br />
+            <Score value={value.score} />
           </div>
         ))}
       </div>
