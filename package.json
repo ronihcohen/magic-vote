@@ -7,15 +7,12 @@
     "clean": "rimraf dist",
     "compile": "node build/scripts/compile",
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
-    "build:prod":
-      "echo \"build:prod is deprecated. Use npm run build.\" && npm run build",
-    "start:dashboard":
-      "cross-env NODE_ENV=development webpack-dashboard -p 1234 -c cyan -m -t material -- node build/scripts/start",
+    "build:prod": "echo \"build:prod is deprecated. Use npm run build.\" && npm run build",
+    "start:dashboard": "cross-env NODE_ENV=development webpack-dashboard -p 1234 -c cyan -m -t material -- node build/scripts/start",
     "start": "cross-env NODE_ENV=development node build/scripts/start",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "format":
-      "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\""
+    "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\""
   },
   "repository": {
     "type": "git",
@@ -30,7 +27,9 @@
     "object-assign": "^4.1.1",
     "promise": "^7.1.1",
     "prop-types": "^15.5.10",
+    "radium": "^0.19.6",
     "react": "^15.5.4",
+    "react-animations": "^1.0.0",
     "react-dom": "^15.5.4",
     "react-google-button": "^0.3.0",
     "react-redux": "^5.0.4",
@@ -70,8 +69,8 @@
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-node": "^4.2.2",
-    "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-prettier": "^2.1.2",
+    "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.0.1",
     "eslint-plugin-standard": "^3.0.1",
     "express": "^4.14.0",

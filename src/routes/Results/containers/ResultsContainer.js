@@ -86,7 +86,7 @@ export default class Results extends Component {
           votes={currentVote}
           header={`Vote #${this.state.maxVoters}`}
         />
-        <ScorePanel votes={total} header="Total" />
+        <ScorePanel votes={total} header="Total" fadeIn={true} />
 
         <RaisedButton
           label="Next"

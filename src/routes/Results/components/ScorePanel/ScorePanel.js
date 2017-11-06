@@ -3,8 +3,17 @@ import classes from "./ScorePanel.scss";
 import Theme from "theme";
 import Subheader from "material-ui/Subheader";
 import Score from "components/Score";
+import { fadeIn } from "react-animations";
+import Radium, { StyleRoot } from "radium";
 
-const ScorePanel = ({ votes, header }) => (
+const styles = {
+  fadeIn: {
+    animation: "x 2s",
+    animationName: Radium.keyframes(fadeIn, "fadeIn")
+  }
+};
+
+const ScorePanel = ({ votes, header, fadeIn }) => (
   <div>
     <Subheader>{header}</Subheader>
     <div
@@ -14,10 +23,15 @@ const ScorePanel = ({ votes, header }) => (
       {votes.map(
         (value, index) =>
           value ? (
-            <div className={classes.score} key={index}>
-              <div className={classes.title}>{value.option}</div> <br />
-              <Score value={value.score} />
-            </div>
+            <StyleRoot key={index}>
+              <div
+                className={classes.score}
+                style={fadeIn ? styles.fadeIn : null}
+              >
+                <div className={classes.title}>{value.option}</div> <br />
+                <Score value={value.score} />
+              </div>
+            </StyleRoot>
           ) : null
       )}
     </div>
