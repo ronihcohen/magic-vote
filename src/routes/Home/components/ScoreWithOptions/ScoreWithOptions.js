@@ -3,7 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
-import Score from "../Score";
+import Score from "components/Score";
 
 const points = value => {
   return value === 1 ? "point" : "points";

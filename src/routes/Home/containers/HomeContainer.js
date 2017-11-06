@@ -108,7 +108,7 @@ export default class Home extends Component {
         style={{ color: Theme.palette.primary2Color }}
       >
         {scoresArray.map((x, i) => (
-          <div className={classes.scoreRow}>
+          <div className={classes.scoreRow} key={i}>
             <ScoreWithOptions
               key={scoresArray.length - i}
               value={scoresArray.length - i}

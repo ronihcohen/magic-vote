@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { forEach, map, sortBy, size, filter } from "lodash";
-import Theme from "theme";
-import Score from "../../Home/components/Score";
+import { forEach, map, sortBy, size } from "lodash";
 import RaisedButton from "material-ui/RaisedButton";
-import Subheader from "material-ui/Subheader";
+import ScorePanel from "../components/ScorePanel";
 
 import {
   firebaseConnect,
@@ -14,9 +12,21 @@ import {
   dataToJS
 } from "react-redux-firebase";
 import classes from "./ResultsContainer.scss";
-import Paper from "material-ui/Paper";
 
-const getCurrentVote = (votes, maxVoters, votesLength) => {
+const sortVotesByScore = (votes, invert) => {
+  return sortBy(
+    map(votes, (val, key) => {
+      if (!val) return;
+      return {
+        option: invert ? val : key,
+        score: invert ? key : val
+      };
+    }),
+    "score"
+  );
+};
+
+const getCurrentVote = (votes, maxVoters) => {
   let voters = 0;
   let currentVote;
   forEach(votes, userVotesObject => {
@@ -25,7 +35,7 @@ const getCurrentVote = (votes, maxVoters, votesLength) => {
     }
     voters++;
   });
-  return currentVote;
+  return sortVotesByScore(currentVote, true);
 };
 
 const generateResults = (votes, maxVoters) => {
@@ -45,15 +55,7 @@ const generateResults = (votes, maxVoters) => {
       }
     });
   });
-  return sortBy(
-    map(results, (val, key) => {
-      return {
-        option: key,
-        score: val
-      };
-    }),
-    "score"
-  );
+  return sortVotesByScore(results);
 };
 
 @firebaseConnect([{ path: "votes" }])
@@ -75,43 +77,17 @@ export default class Results extends Component {
     if (!isLoaded(votes)) return null;
 
     const votesLength = size(votes);
-    let results = generateResults(votes, this.state.maxVoters, votesLength);
-    const currentVote = getCurrentVote(
-      votes,
-      this.state.maxVoters,
-      votesLength
-    );
+    const total = generateResults(votes, this.state.maxVoters, votesLength);
+    const currentVote = getCurrentVote(votes, this.state.maxVoters);
 
     return (
       <div className={classes.container}>
-        <Subheader>Vote #{this.state.maxVoters}</Subheader>
-        <div
-          className={classes.scoreContainer}
-          style={{ color: Theme.palette.primary2Color }}
-        >
-          {currentVote.map(
-            (value, index) =>
-              value ? (
-                <div className={classes.score} key={index}>
-                  <div className={classes.title}>{value}</div> <br />
-                  <Score value={index} />
-                </div>
-              ) : null
-          )}
-        </div>
-        <Subheader>Total</Subheader>
+        <ScorePanel
+          votes={currentVote}
+          header={`Vote #${this.state.maxVoters}`}
+        />
+        <ScorePanel votes={total} header="Total" />
 
-        <div
-          className={classes.scoreContainer}
-          style={{ color: Theme.palette.primary2Color }}
-        >
-          {results.map((value, index) => (
-            <div className={classes.score} key={index}>
-              <div className={classes.title}>{value.option}</div> <br />
-              <Score value={value.score} />
-            </div>
-          ))}
-        </div>
         <RaisedButton
           label="Next"
           primary={true}
