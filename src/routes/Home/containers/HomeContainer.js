@@ -114,11 +114,6 @@ export default class Home extends Component {
     const { votes, options, auth, optionsNumber } = this.props;
     const { error, currentVote } = this.state;
 
-    const filteredOptions = filter(
-      options,
-      (option, id) => !find(currentVote, (vote, id) => vote === option)
-    );
-
     if (!auth || !auth.uid) {
       return <Subheader>Please login</Subheader>;
     }
@@ -139,9 +134,10 @@ export default class Home extends Component {
             <ScoreWithOptions
               key={scoresArray.length - i}
               value={scoresArray.length - i}
-              selectedOption={this.state.currentVote[scoresArray.length - i]}
-              options={filteredOptions}
+              selectedOption={currentVote[scoresArray.length - i]}
+              options={optionsArray}
               handleChange={this.handleChange}
+              currentVote={currentVote}
             />
           </div>
         ))}

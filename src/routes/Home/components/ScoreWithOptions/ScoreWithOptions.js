@@ -4,16 +4,26 @@ import PropTypes from "prop-types";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
 import Score from "components/Score";
+import { find } from "lodash";
 
 const points = value => {
   return value === 1 ? "point" : "points";
 };
 
-const ScoreWithOptions = ({ value, handleChange, options, selectedOption }) => {
-  if (selectedOption) {
-    options = [selectedOption];
+const shouldShowOption = (option, currentVote, selectedOption) => {
+  if (option === selectedOption) {
+    return true;
   }
+  return !find(currentVote, (vote, id) => vote === option);
+};
 
+const ScoreWithOptions = ({
+  value,
+  handleChange,
+  options,
+  selectedOption,
+  currentVote
+}) => {
   return (
     <div className={classes.container}>
       <Score value={value} />
@@ -23,9 +33,12 @@ const ScoreWithOptions = ({ value, handleChange, options, selectedOption }) => {
         hintText={`Your vote for ${value} ${points(value)}`}
         onChange={(event, index, option) => handleChange(value, option)}
       >
-        {options.map(option => (
-          <MenuItem value={option} primaryText={option} key={option} />
-        ))}
+        {options.map(
+          option =>
+            shouldShowOption(option, currentVote, selectedOption) ? (
+              <MenuItem value={option} primaryText={option} key={option} />
+            ) : null
+        )}
       </SelectField>
     </div>
   );
