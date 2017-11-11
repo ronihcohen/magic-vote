@@ -59,7 +59,8 @@ export default class Home extends Component {
 
   state = {
     error: null,
-    currentVote: {}
+    currentVote: {},
+    submitting: false
   };
 
   handleChange = (score, option) => {
@@ -74,25 +75,42 @@ export default class Home extends Component {
     const { auth, firebase, optionsNumber, votes } = this.props;
     const currentVoteSize = size(this.state.currentVote);
 
+    this.setState({ submitting: true });
+
     const myVotes = votes && votes[auth.uid] ? votes[auth.uid] : {};
 
     if (size(myVotes) > 0) {
-      return this.setState({ error: "Sorry, you can vote one time only" });
+      return this.setState({
+        error: "Sorry, you can vote one time only",
+        submitting: false
+      });
     }
 
     if (currentVoteSize !== parseInt(optionsNumber)) {
-      return this.setState({ error: "One or more votes are missing" });
+      return this.setState({
+        error: "One or more votes are missing",
+        submitting: false
+      });
     }
 
     if (!auth || !auth.uid) {
-      return this.setState({ error: "You must be Logged into Toggle Done" });
+      return this.setState({
+        error: "You must be Logged into Toggle Done",
+        submitting: false
+      });
     }
 
     return firebase.set(`/votes/${auth.uid}/`, this.state.currentVote, err => {
       if (err) {
-        return this.setState({ error: "ERROR! please try again :-(" });
+        return this.setState({
+          error: "ERROR! please try again :-(",
+          submitting: false
+        });
       }
-      this.setState({ error: "Your votes submitted successfully" });
+      this.setState({
+        error: "Your votes submitted successfully",
+        submitting: false
+      });
     });
   };
 
@@ -141,12 +159,17 @@ export default class Home extends Component {
             />
           </div>
         ))}
-        <div className={classes.scoreRow}>
-          <RaisedButton
-            label="Submit"
-            primary={true}
-            onClick={() => this.handleSubmit()}
-          />
+        <div>
+          {this.state.submitting ? (
+            <CircularProgress />
+          ) : (
+            <RaisedButton
+              label="Submit"
+              primary={true}
+              disabled={this.state.submitting}
+              onClick={() => this.handleSubmit()}
+            />
+          )}
         </div>
         {error ? (
           <Snackbar
