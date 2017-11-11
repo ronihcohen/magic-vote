@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { map, filter, find } from "lodash";
+import { map, filter, find, size } from "lodash";
 import Theme from "theme";
 import { browserHistory } from "react-router";
 
@@ -58,16 +58,42 @@ export default class Home extends Component {
   };
 
   state = {
-    error: null
+    error: null,
+    currentVote: {}
   };
 
   handleChange = (score, option) => {
-    const { auth, firebase } = this.props;
+    let newVote = { ...this.state.currentVote };
+    newVote[score] = option;
+    this.setState({
+      currentVote: newVote
+    });
+  };
+
+  handleSubmit = (score, option) => {
+    const { auth, firebase, optionsNumber, votes } = this.props;
+    const currentVoteSize = size(this.state.currentVote);
+
+    const myVotes = votes && votes[auth.uid] ? votes[auth.uid] : {};
+
+    if (size(myVotes) > 0) {
+      return this.setState({ error: "Sorry, you can vote one time only" });
+    }
+
+    if (currentVoteSize !== parseInt(optionsNumber)) {
+      return this.setState({ error: "One or more votes are missing" });
+    }
+
     if (!auth || !auth.uid) {
       return this.setState({ error: "You must be Logged into Toggle Done" });
     }
 
-    return firebase.set(`/votes/${auth.uid}/${score}/`, option);
+    return firebase.set(`/votes/${auth.uid}/`, this.state.currentVote, err => {
+      if (err) {
+        return this.setState({ error: "ERROR! please try again :-(" });
+      }
+      this.setState({ error: "Your votes submitted successfully" });
+    });
   };
 
   handleClean() {
@@ -86,17 +112,18 @@ export default class Home extends Component {
   }
   render() {
     const { votes, options, auth, optionsNumber } = this.props;
-    const { error } = this.state;
+    const { error, currentVote } = this.state;
+
+    const filteredOptions = filter(
+      options,
+      (option, id) => !find(currentVote, (vote, id) => vote === option)
+    );
 
     if (!auth || !auth.uid) {
       return <Subheader>Please login</Subheader>;
     }
 
-    const myVotes = votes && votes[auth.uid] ? votes[auth.uid] : {};
-    const filteredOptions = filter(
-      options,
-      (option, id) => !find(myVotes, (vote, id) => vote === option)
-    );
+    const optionsArray = map(options, (option, id) => option);
 
     const scoresArray = optionsNumber
       ? [...Array(parseInt(optionsNumber))]
@@ -112,7 +139,7 @@ export default class Home extends Component {
             <ScoreWithOptions
               key={scoresArray.length - i}
               value={scoresArray.length - i}
-              selectedOption={myVotes[scoresArray.length - i]}
+              selectedOption={this.state.currentVote[scoresArray.length - i]}
               options={filteredOptions}
               handleChange={this.handleChange}
             />
@@ -120,11 +147,19 @@ export default class Home extends Component {
         ))}
         <div className={classes.scoreRow}>
           <RaisedButton
-            label="Clean votes"
-            secondary={true}
-            onClick={() => this.handleClean()}
+            label="Submit"
+            primary={true}
+            onClick={() => this.handleSubmit()}
           />
         </div>
+        {error ? (
+          <Snackbar
+            open={!!error}
+            message={error}
+            autoHideDuration={4000}
+            onRequestClose={() => this.setState({ error: null })}
+          />
+        ) : null}
       </div>
     ) : null;
   }
