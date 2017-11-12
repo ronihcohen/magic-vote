@@ -71,15 +71,23 @@ export default class Home extends Component {
     });
   };
 
+  getUserVotesSize = () => {
+    const { votes, auth } = this.props;
+    if (!votes || !votes[auth.uid]) {
+      return 0;
+    }
+    const userVotesSize = size(votes[auth.uid]);
+    console.log(`Current user votes size: ${userVotesSize}`);
+    return userVotesSize;
+  };
+
   handleSubmit = (score, option) => {
     const { auth, firebase, optionsNumber, votes } = this.props;
     const currentVoteSize = size(this.state.currentVote);
 
     this.setState({ submitting: true });
 
-    const myVotes = votes && votes[auth.uid] ? votes[auth.uid] : {};
-
-    if (size(myVotes) > 0) {
+    if (this.getUserVotesSize() > 0) {
       return this.setState({
         error: "Sorry, you can vote one time only",
         submitting: false
@@ -133,7 +141,11 @@ export default class Home extends Component {
     const { error, currentVote } = this.state;
 
     if (!auth || !auth.uid) {
-      return <Subheader>Please login</Subheader>;
+      return <h2 className={classes.scoreRow}>Please login first.</h2>;
+    }
+
+    if (this.getUserVotesSize() > 0) {
+      return <h2 className={classes.scoreRow}>Thank you for your vote!</h2>;
     }
 
     const optionsArray = map(options, (option, id) => option);
@@ -159,7 +171,7 @@ export default class Home extends Component {
             />
           </div>
         ))}
-        <div>
+        <div className={classes.scoreRow}>
           {this.state.submitting ? (
             <CircularProgress />
           ) : (
