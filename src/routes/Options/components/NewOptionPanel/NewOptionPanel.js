@@ -30,6 +30,12 @@ export default class NewOptionPanel extends Component {
     this.setState({ text: "" });
   };
 
+  handleKeyPress = event => {
+    if (event.key == "Enter") {
+      this.handleAdd();
+    }
+  };
+
   render() {
     const { disabled, number } = this.props;
 
@@ -48,6 +54,7 @@ export default class NewOptionPanel extends Component {
             style={{ width: "150px" }}
             value={this.state.text}
             floatingLabelText="New Option"
+            onKeyPress={this.handleKeyPress}
             onChange={({ target }) => this.setState({ text: target.value })}
           />
           <IconButton
