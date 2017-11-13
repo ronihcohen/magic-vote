@@ -110,11 +110,6 @@ export default class Navbar extends Component {
 
     return (
       <AppBar
-        title={
-          <Link to={authExists ? LIST_PATH : "/"} className={classes.brand}>
-            Magic Vote
-          </Link>
-        }
         showMenuIconButton={false}
         iconElementRight={isLoaded(auth, account) ? rightMenu : null}
         iconStyleRight={authExists ? avatarStyles.wrapper : {}}

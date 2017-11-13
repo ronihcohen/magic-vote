@@ -13,6 +13,12 @@
   font-size: 30px;
 }
 
+@media (max-width: 320px) {
+  .score {
+    display: none;
+  }
+}
+
 .points {
   position: relative;
   font-size: 15px;
