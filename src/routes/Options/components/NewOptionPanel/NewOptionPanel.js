@@ -37,36 +37,49 @@ export default class NewOptionPanel extends Component {
   };
 
   render() {
-    const { disabled, number } = this.props;
+    const { disabled, number, imgUrl } = this.props;
 
     return (
-      <Paper className={classes.container}>
-        <div className={classes.inputSection}>
-          <TextField
-            style={{ width: "70px", marginRight: "10px" }}
-            value={number}
-            floatingLabelText="# options"
-            type="number"
-            onChange={({ target }) => this.props.onSetNumber(target.value)}
-          />
-
-          <TextField
-            style={{ width: "150px" }}
-            value={this.state.text}
-            floatingLabelText="New Option"
-            onKeyPress={this.handleKeyPress}
-            onChange={({ target }) => this.setState({ text: target.value })}
-          />
-          <IconButton
-            onClick={this.handleAdd}
-            disabled={disabled}
-            tooltipPosition="top-center"
-            tooltip={disabled ? "Login To Add Option" : "Add Option"}
-          >
-            <ContentAdd />
-          </IconButton>
-        </div>
-      </Paper>
+      <div>
+        <Paper className={classes.container}>
+          <div className={classes.inputSection}>
+            <TextField
+              value={number}
+              floatingLabelText="# options"
+              type="number"
+              onChange={({ target }) =>
+                this.props.onSaveToDB("optionsNumber", target.value)}
+            />
+          </div>
+          <br />
+          <div className={classes.inputSection}>
+            <TextField
+              value={imgUrl}
+              floatingLabelText="Image URL"
+              onChange={({ target }) =>
+                this.props.onSaveToDB("imgUrl", target.value)}
+            />
+          </div>
+        </Paper>
+        <Paper className={classes.container}>
+          <div className={classes.inputSection}>
+            <TextField
+              value={this.state.text}
+              floatingLabelText="New Option"
+              onKeyPress={this.handleKeyPress}
+              onChange={({ target }) => this.setState({ text: target.value })}
+            />
+            <IconButton
+              onClick={this.handleAdd}
+              disabled={disabled}
+              tooltipPosition="top-center"
+              tooltip={disabled ? "Login To Add Option" : "Add Option"}
+            >
+              <ContentAdd />
+            </IconButton>
+          </div>
+        </Paper>
+      </div>
     );
   }
 }

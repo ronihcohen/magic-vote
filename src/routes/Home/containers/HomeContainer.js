@@ -27,14 +27,16 @@ import classes from "./HomeContainer.scss";
 @firebaseConnect([
   { path: "votes" },
   { path: "optionsNumber" },
-  { path: "options", queryParams: ["orderByKey"] }
+  { path: "options", queryParams: ["orderByKey"] },
+  { path: "imgUrl" }
 ])
 @connect(({ firebase }) => ({
   auth: pathToJS(firebase, "auth"),
   account: pathToJS(firebase, "profile"),
   votes: dataToJS(firebase, "votes"),
   options: dataToJS(firebase, "options"),
-  optionsNumber: dataToJS(firebase, "optionsNumber")
+  optionsNumber: dataToJS(firebase, "optionsNumber"),
+  imgUrl: dataToJS(firebase, "imgUrl")
 }))
 export default class Home extends Component {
   static propTypes = {
@@ -135,7 +137,7 @@ export default class Home extends Component {
     }
   }
   render() {
-    const { votes, options, auth, optionsNumber } = this.props;
+    const { votes, options, auth, optionsNumber, imgUrl } = this.props;
     const { error, currentVote } = this.state;
 
     if (!auth || !auth.uid) {
@@ -157,6 +159,8 @@ export default class Home extends Component {
         className={classes.container}
         style={{ color: Theme.palette.primary2Color }}
       >
+        <img src={imgUrl} style={{ width: 220, borderRadius: 10 }} />
+        <br />
         {scoresArray.map((x, i) => (
           <div className={classes.scoreRow} key={i}>
             <ScoreWithOptions

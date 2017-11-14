@@ -25,7 +25,8 @@ import classes from "./OptionsContainer.scss";
 
 @firebaseConnect([
   { path: "options", queryParams: ["orderByKey"] },
-  { path: "optionsNumber" }
+  { path: "optionsNumber" },
+  { path: "imgUrl" }
   // { path: 'todos', type: 'once' } // for loading once instead of binding
   // { path: "options", queryParams: ["orderByKey", "limitToLast=5"] } // 10 most recent
   // { path: 'todos', populates } // populate
@@ -35,7 +36,8 @@ import classes from "./OptionsContainer.scss";
   auth: pathToJS(firebase, "auth"),
   account: pathToJS(firebase, "profile"),
   options: dataToJS(firebase, "options"),
-  optionsNumber: dataToJS(firebase, "optionsNumber")
+  optionsNumber: dataToJS(firebase, "optionsNumber"),
+  imgUrl: dataToJS(firebase, "imgUrl")
   // todos: orderedToJS(firebase, 'todos') // if looking for array
   // todos: dataToJS(firebase, 'myTodos'), // if using storeAs
   // todos: populatedDataToJS(firebase, 'todos', populates), // if populating
@@ -76,12 +78,12 @@ export default class Options extends Component {
     return this.props.firebase.push("/options", option);
   };
 
-  handleSetNumber = number => {
-    return this.props.firebase.set("/optionsNumber", number);
+  handleSaveToDB = (key, value) => {
+    return this.props.firebase.set(key, value);
   };
 
   render() {
-    const { options, optionsNumber } = this.props;
+    const { options, optionsNumber, imgUrl } = this.props;
     const { error } = this.state;
 
     return (
@@ -101,10 +103,11 @@ export default class Options extends Component {
         {isLoaded(optionsNumber) ? (
           <div className={classes.todos}>
             <NewOptionPanel
-              onSetNumber={this.handleSetNumber}
+              onSaveToDB={this.handleSaveToDB}
               onNewClick={this.handleAdd}
               disabled={false}
               number={optionsNumber}
+              imgUrl={imgUrl}
             />
 
             {!isLoaded(options) ? (
