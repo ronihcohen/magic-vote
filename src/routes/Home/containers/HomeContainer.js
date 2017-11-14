@@ -103,7 +103,7 @@ export default class Home extends Component {
 
     if (!auth || !auth.uid) {
       return this.setState({
-        error: "You must be Logged into Toggle Done",
+        error: "You must be logged in.",
         submitting: false
       });
     }
@@ -123,13 +123,11 @@ export default class Home extends Component {
   };
 
   handleClean() {
-    const { auth, firebase } = this.props;
-    return firebase.remove(`/votes/${auth.uid}`).catch(err => {
-      console.error("Error cleaning votes: ", err); // eslint-disable-line no-console
-      this.setState({ error: "Error cleaning todo" });
-      return Promise.reject(err);
+    this.setState({
+      currentVote: {}
     });
   }
+
   componentWillMount() {
     const { auth } = this.props;
     if (!auth || !auth.uid) {
@@ -175,12 +173,20 @@ export default class Home extends Component {
           {this.state.submitting ? (
             <CircularProgress />
           ) : (
-            <RaisedButton
-              label="Submit"
-              primary={true}
-              disabled={this.state.submitting}
-              onClick={() => this.handleSubmit()}
-            />
+            <div className={classes.scoreRow}>
+              <RaisedButton
+                label="Submit"
+                primary={true}
+                disabled={this.state.submitting}
+                onClick={() => this.handleSubmit()}
+              />
+              <br />
+              <RaisedButton
+                label="Clear"
+                secondary={true}
+                onClick={() => this.handleClean()}
+              />
+            </div>
           )}
         </div>
         {error ? (
