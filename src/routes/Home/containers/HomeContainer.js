@@ -159,7 +159,7 @@ export default class Home extends Component {
         className={classes.container}
         style={{ color: Theme.palette.primary2Color }}
       >
-        <img src={imgUrl} style={{ width: 220, borderRadius: 10 }} />
+        <img src={imgUrl} style={{ width: "220px", borderRadius: "10px" }} />
         <br />
         {scoresArray.map((x, i) => (
           <div className={classes.scoreRow} key={i}>
