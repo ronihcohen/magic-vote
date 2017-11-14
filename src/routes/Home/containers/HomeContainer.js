@@ -79,7 +79,6 @@ export default class Home extends Component {
       return 0;
     }
     const userVotesSize = size(votes[auth.uid]);
-    console.log(`Current user votes size: ${userVotesSize}`);
     return userVotesSize;
   };
 
@@ -141,11 +140,21 @@ export default class Home extends Component {
     const { error, currentVote } = this.state;
 
     if (!auth || !auth.uid) {
-      return <h2 className={classes.scoreRow}>Please login first.</h2>;
+      return (
+        <div className={classes.container}>
+          <h2 className={classes.scoreRow}>lease login first</h2>
+          <img src={imgUrl} style={{ width: "320px", borderRadius: "10px" }} />
+        </div>
+      );
     }
 
     if (this.getUserVotesSize() > 0) {
-      return <h2 className={classes.scoreRow}>Thank you for your vote!</h2>;
+      return (
+        <div className={classes.container}>
+          <h2 className={classes.scoreRow}>Thank you for your vote!</h2>
+          <img src={imgUrl} style={{ width: "320px", borderRadius: "10px" }} />
+        </div>
+      );
     }
 
     const optionsArray = map(options, (option, id) => option);
