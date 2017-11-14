@@ -98,10 +98,6 @@ export default class Navbar extends Component {
         anchorOrigin={{ horizontal: "right", vertical: "top" }}
         animated={false}
       >
-        <MenuItem
-          primaryText="Account"
-          onTouchTap={() => this.context.router.push(ACCOUNT_PATH)}
-        />
         <MenuItem primaryText="Sign out" onTouchTap={this.handleLogout} />
       </IconMenu>
     ) : (
