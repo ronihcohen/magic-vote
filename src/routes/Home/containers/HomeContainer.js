@@ -142,8 +142,7 @@ export default class Home extends Component {
     if (!auth || !auth.uid) {
       return (
         <div className={classes.container}>
-          <h2 className={classes.scoreRow}>lease login first</h2>
-          <img src={imgUrl} style={{ width: "320px", borderRadius: "10px" }} />
+          <h2 className={classes.scoreRow}>Please login first</h2>
         </div>
       );
     }
