@@ -1,7 +1,6 @@
 import React from "react";
 import classes from "./ScorePanel.scss";
 import Theme from "theme";
-import Subheader from "material-ui/Subheader";
 import Score from "components/Score";
 import { fadeIn } from "react-animations";
 import Radium, { StyleRoot } from "radium";
@@ -15,7 +14,7 @@ const styles = {
 
 const ScorePanel = ({ votes, header, fadeIn }) => (
   <div>
-    <Subheader>{header}</Subheader>
+    <h2>{header}</h2>
     <div
       className={classes.scoreContainer}
       style={{ color: Theme.palette.primary2Color }}

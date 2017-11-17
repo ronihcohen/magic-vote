@@ -32,6 +32,7 @@
     "react-animations": "^1.0.0",
     "react-dom": "^15.5.4",
     "react-google-button": "^0.3.0",
+    "react-keydown": "^1.9.5",
     "react-redux": "^5.0.4",
     "react-redux-firebase": "latest",
     "react-router": "^3.0.0",

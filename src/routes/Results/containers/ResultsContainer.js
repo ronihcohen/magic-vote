@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { forEach, map, sortBy, size } from "lodash";
 import RaisedButton from "material-ui/RaisedButton";
 import ScorePanel from "../components/ScorePanel";
+import keydown from "react-keydown";
 
 import {
   firebaseConnect,
@@ -70,6 +71,33 @@ export default class Results extends Component {
     this.state = {
       maxVoters: 1
     };
+  }
+
+  @keydown("enter")
+  showTotal(event) {
+    this.setState({
+      showTotal: true
+    });
+  }
+
+  @keydown("n")
+  next(event) {
+    if (this.state.maxVoters !== size(this.props.votes)) {
+      this.setState({
+        maxVoters: this.state.maxVoters + 1,
+        showTotal: false
+      });
+    }
+  }
+
+  @keydown("b")
+  back(event) {
+    if (this.state.maxVoters !== 1) {
+      this.setState({
+        maxVoters: this.state.maxVoters - 1,
+        showTotal: false
+      });
+    }
   }
 
   render() {

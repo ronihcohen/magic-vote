@@ -5029,6 +5029,12 @@ react-google-button@^0.3.0:
   dependencies:
     prop-types "^15.5.8"
 
+react-keydown@^1.9.5:
+  version "1.9.5"
+  resolved "https://registry.yarnpkg.com/react-keydown/-/react-keydown-1.9.5.tgz#5119c7f332f80b298e82eb82e021282cd71a9840"
+  dependencies:
+    core-js "^2.5.0"
+
 react-redux-firebase@latest:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/react-redux-firebase/-/react-redux-firebase-1.5.1.tgz#80bec8c70416245230e0b8e16ac5e49bb8cae3aa"
