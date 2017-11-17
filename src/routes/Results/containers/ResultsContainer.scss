@@ -1,4 +1,10 @@
+@import "base";
+
 .container {
   text-align: center;
   padding-bottom: 5rem;
+}
+.row {
+  @extend .flex-column-center;
+  padding: 2rem;
 }

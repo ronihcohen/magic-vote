@@ -86,17 +86,33 @@ export default class Results extends Component {
           votes={currentVote}
           header={`Vote #${this.state.maxVoters}`}
         />
-        <ScorePanel votes={total} header="Total" fadeIn={true} />
-
-        <RaisedButton
-          label="Next"
-          primary={true}
-          disabled={this.state.maxVoters === votesLength}
-          onClick={() => {
-            this.setState({ maxVoters: this.state.maxVoters + 1 });
-          }}
-        />
-
+        {this.state.showTotal && (
+          <ScorePanel votes={total} header="Total" fadeIn={true} />
+        )}
+        <div className={classes.row}>
+          {!this.state.showTotal && (
+            <RaisedButton
+              label="Total"
+              onClick={() => {
+                this.setState({
+                  showTotal: true
+                });
+              }}
+            />
+          )}
+          <br />
+          <RaisedButton
+            label="Next"
+            primary={true}
+            disabled={this.state.maxVoters === votesLength}
+            onClick={() => {
+              this.setState({
+                maxVoters: this.state.maxVoters + 1,
+                showTotal: false
+              });
+            }}
+          />
+        </div>
         <p>{`${this.state.maxVoters} of ${votesLength} votes`}</p>
       </div>
     );
