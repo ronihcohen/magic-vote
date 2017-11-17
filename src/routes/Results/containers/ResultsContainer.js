@@ -110,15 +110,13 @@ export default class Results extends Component {
 
     return (
       <div className={classes.container}>
-        {votesLength !== this.state.maxVoters && (
-          <ScorePanel
-            votes={currentVote}
-            header={`Vote #${this.state.maxVoters}`}
-          />
-        )}
-        {this.state.showTotal || votesLength === this.state.maxVoters ? (
+        <ScorePanel
+          votes={currentVote}
+          header={`Vote #${this.state.maxVoters}`}
+        />
+        {this.state.showTotal && (
           <ScorePanel votes={total} header="Total" fadeIn={true} />
-        ) : null}
+        )}
         <div className={classes.row}>
           {votesLength === this.state.maxVoters ||
             (!this.state.showTotal && (
