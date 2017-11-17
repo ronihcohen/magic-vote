@@ -118,17 +118,16 @@ export default class Results extends Component {
           <ScorePanel votes={total} header="Total" fadeIn={true} />
         )}
         <div className={classes.row}>
-          {votesLength === this.state.maxVoters ||
-            (!this.state.showTotal && (
-              <RaisedButton
-                label="Total"
-                onClick={() => {
-                  this.setState({
-                    showTotal: true
-                  });
-                }}
-              />
-            ))}
+          {!this.state.showTotal && (
+            <RaisedButton
+              label="Total"
+              onClick={() => {
+                this.setState({
+                  showTotal: true
+                });
+              }}
+            />
+          )}
           <br />
           <RaisedButton
             label="Next"
