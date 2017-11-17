@@ -3,6 +3,7 @@
 .container {
   text-align: center;
   padding-bottom: 5rem;
+  direction: rtl;
 }
 .row {
   @extend .flex-column-center;
