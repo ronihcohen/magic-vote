@@ -120,8 +120,8 @@ export default class Results extends Component {
           <ScorePanel votes={total} header="Total" fadeIn={true} />
         ) : null}
         <div className={classes.row}>
-          {!this.state.showTotal ||
-            (votesLength === this.state.maxVoters && (
+          {votesLength === this.state.maxVoters ||
+            (!this.state.showTotal && (
               <RaisedButton
                 label="Total"
                 onClick={() => {
