@@ -110,24 +110,27 @@ export default class Results extends Component {
 
     return (
       <div className={classes.container}>
-        <ScorePanel
-          votes={currentVote}
-          header={`Vote #${this.state.maxVoters}`}
-        />
-        {this.state.showTotal && (
-          <ScorePanel votes={total} header="Total" fadeIn={true} />
+        {votesLength !== this.state.maxVoters && (
+          <ScorePanel
+            votes={currentVote}
+            header={`Vote #${this.state.maxVoters}`}
+          />
         )}
+        {this.state.showTotal || votesLength === this.state.maxVoters ? (
+          <ScorePanel votes={total} header="Total" fadeIn={true} />
+        ) : null}
         <div className={classes.row}>
-          {!this.state.showTotal && (
-            <RaisedButton
-              label="Total"
-              onClick={() => {
-                this.setState({
-                  showTotal: true
-                });
-              }}
-            />
-          )}
+          {!this.state.showTotal ||
+            (votesLength === this.state.maxVoters && (
+              <RaisedButton
+                label="Total"
+                onClick={() => {
+                  this.setState({
+                    showTotal: true
+                  });
+                }}
+              />
+            ))}
           <br />
           <RaisedButton
             label="Next"
@@ -141,7 +144,7 @@ export default class Results extends Component {
             }}
           />
         </div>
-        <p>{`${this.state.maxVoters} of ${votesLength} votes`}</p>
+        <p>{`${this.state.maxVoters} - ${votesLength}`}</p>
       </div>
     );
   }
