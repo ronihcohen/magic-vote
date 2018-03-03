@@ -1,14 +1,14 @@
-import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import {
   firebaseConnect,
   isLoaded,
   isEmpty,
   dataToJS
-} from 'react-redux-firebase'
-import LoadingSpinner from 'components/LoadingSpinner'
-import classes from './ProjectContainer.scss'
+} from "react-redux-firebase";
+import LoadingSpinner from "components/LoadingSpinner";
+import classes from "./ProjectContainer.scss";
 
 // Get project path from firebase based on params prop (route params)
 @firebaseConnect(({ params }) => [`projects/${params.projectname}`])
@@ -20,17 +20,17 @@ export default class Project extends Component {
   static propTypes = {
     project: PropTypes.object,
     params: PropTypes.object.isRequired
-  }
+  };
 
   render() {
-    const { project, params } = this.props
+    const { project, params } = this.props;
 
     if (isEmpty(project)) {
-      return <div>Project not found</div>
+      return <div>Project not found</div>;
     }
 
     if (!isLoaded(project)) {
-      return <LoadingSpinner />
+      return <LoadingSpinner />;
     }
 
     return (
@@ -39,6 +39,6 @@ export default class Project extends Component {
         <pre>Project Key: {params.projectname}</pre>
         <pre>{JSON.stringify(project, null, 2)}</pre>
       </div>
-    )
+    );
   }
 }

@@ -17,12 +17,11 @@ import ResultsRoute from "./Results";
 export const createRoutes = store => ({
   path: "/",
   component: CoreLayout,
-  indexRoute: Home,
+  indexRoute: OptionsRoute,
   childRoutes: [
     AccountRoute,
     LoginRoute,
     SignupRoute,
-    OptionsRoute,
     ResultsRoute,
     ConfigRoute,
     ProjectsRoute(store), // async route definitions recieve store

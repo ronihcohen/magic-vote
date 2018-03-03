@@ -21,13 +21,14 @@ import { connect } from "react-redux";
 
 @firebaseConnect(["/"])
 @connect(({ firebase }) => ({
-  imgUrl: dataToJS(firebase, "imgUrl")
+  imgUrl: dataToJS(firebase, "imgUrl"),
+  optionsNumber: dataToJS(firebase, "optionsNumber"),
+  competitionName: dataToJS(firebase, "competitionName")
 }))
 export default class Config extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      optionsNumber: 5,
       wasSaved: false
     };
     this.debouncedAfterSave = debounce(this.afterSave, 1000);
@@ -38,9 +39,9 @@ export default class Config extends Component {
   };
 
   render() {
-    const { firebase, imgUrl } = this.props;
+    const { firebase, imgUrl, optionsNumber, competitionName } = this.props;
 
-    return !isLoaded(imgUrl) ? (
+    return !isLoaded(imgUrl, optionsNumber, competitionName) ? (
       <CircularProgress />
     ) : (
       <Paper className={classes.paper}>
@@ -48,20 +49,24 @@ export default class Config extends Component {
         <div className={classes.container}>
           <SelectField
             floatingLabelText="Votes per user"
-            value={this.state.optionsNumber}
-            onChange={(e, value) => this.setState({ optionsNumber: value })}
+            value={optionsNumber}
+            onChange={(e, value) =>
+              firebase
+                .set("optionsNumber", value)
+                .then(this.debouncedAfterSave())}
           >
-            <MenuItem value={1} primaryText="1" />
-            <MenuItem value={2} primaryText="2" />
-            <MenuItem value={3} primaryText="3" />
-            <MenuItem value={4} primaryText="4" />
-            <MenuItem value={5} primaryText="5" />
-            <MenuItem value={6} primaryText="6" />
-            <MenuItem value={7} primaryText="7" />
+            {[...Array(10)].map((e, i) => (
+              <MenuItem value={i} primaryText={i + " votes"} />
+            ))}
           </SelectField>
-          <TextField floatingLabelText="Floating Label Text" />
-          <TextField floatingLabelText="Floating Label Text" />
-          <TextField floatingLabelText="Floating Label Text" />
+          <TextField
+            floatingLabelText="Competition Name"
+            value={competitionName}
+            onChange={(e, value) =>
+              firebase
+                .set("competitionName", value)
+                .then(this.debouncedAfterSave())}
+          />
           <TextField
             floatingLabelText="Image URL"
             fullWidth={true}

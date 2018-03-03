@@ -9,8 +9,7 @@ import { isObject } from "lodash";
 export default class TodoItem extends Component {
   static propTypes = {
     option: PropTypes.string.isRequired,
-    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    onDeleteClick: PropTypes.func
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   };
 
   render() {
@@ -18,10 +17,7 @@ export default class TodoItem extends Component {
 
     return (
       <div className={classes.container}>
-        <ListItem
-          rightIcon={<Delete onClick={() => onDeleteClick(id)} />}
-          primaryText={option}
-        />
+        <ListItem primaryText={option} />
       </div>
     );
   }
