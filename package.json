@@ -7,12 +7,14 @@
     "clean": "rimraf dist",
     "compile": "node build/scripts/compile",
     "build": "npm run clean && cross-env NODE_ENV=production npm run compile",
-    "build:prod": "echo \"build:prod is deprecated. Use npm run build.\" && npm run build",
-    "start:dashboard": "cross-env NODE_ENV=development webpack-dashboard -p 1234 -c cyan -m -t material -- node build/scripts/start",
+    "build:prod":
+      "echo \"build:prod is deprecated. Use npm run build.\" && npm run build",
+    "start:dashboard":
+      "cross-env NODE_ENV=development webpack-dashboard -p 1234 -c cyan -m -t material -- node build/scripts/start",
     "start": "cross-env NODE_ENV=development node build/scripts/start",
     "lint": "eslint .",
     "lint:fix": "npm run lint -- --fix",
-    "format": "prettier --single-quote --no-semi --trailing-comma none --write \"src/**/*.js\""
+    "format": "prettier --write \"src/**/*.js\""
   },
   "repository": {
     "type": "git",

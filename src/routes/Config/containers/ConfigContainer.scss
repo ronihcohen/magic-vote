@@ -1,0 +1,13 @@
+@import "base";
+.paper {
+  width: 60%;
+  padding: 20px;
+  margin: 20px auto;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 40px 40px;
+  flex-wrap: wrap;
+}
