@@ -9,8 +9,10 @@
       }
     },
     "votes": {
-      "$uid": {
-        ".write": "auth !== null && $uid === auth.uid"
+      "$competitionName": {
+        "$uid": {
+          ".write": "auth !== null && $uid === auth.uid"
+        }
       }
     }
   }

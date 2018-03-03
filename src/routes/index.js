@@ -17,9 +17,10 @@ import ResultsRoute from "./Results";
 export const createRoutes = store => ({
   path: "/",
   component: CoreLayout,
-  indexRoute: OptionsRoute,
+  indexRoute: Home,
   childRoutes: [
     AccountRoute,
+    OptionsRoute,
     LoginRoute,
     SignupRoute,
     ResultsRoute,

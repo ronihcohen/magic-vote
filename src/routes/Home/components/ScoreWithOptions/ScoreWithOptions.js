@@ -11,10 +11,10 @@ const points = value => {
 };
 
 const shouldShowOption = (option, currentVote, selectedOption) => {
-  if (option === selectedOption) {
+  if (option.text === selectedOption) {
     return true;
   }
-  return !find(currentVote, (vote, id) => vote === option);
+  return !find(currentVote, (vote, id) => vote === option.text);
 };
 
 const ScoreWithOptions = ({
@@ -36,7 +36,11 @@ const ScoreWithOptions = ({
         {options.map(
           option =>
             shouldShowOption(option, currentVote, selectedOption) ? (
-              <MenuItem value={option} primaryText={option} key={option} />
+              <MenuItem
+                value={option.text}
+                primaryText={option.text}
+                key={option.text}
+              />
             ) : null
         )}
       </SelectField>

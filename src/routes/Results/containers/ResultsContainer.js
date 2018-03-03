@@ -59,11 +59,12 @@ const generateResults = (votes, maxVoters) => {
   return sortVotesByScore(results);
 };
 
-@firebaseConnect([{ path: "votes" }])
+@firebaseConnect([{ path: "votes" }, { path: "competitionName" }])
 @connect(({ firebase }) => ({
   auth: pathToJS(firebase, "auth"),
   account: pathToJS(firebase, "profile"),
-  votes: dataToJS(firebase, "votes")
+  votes: dataToJS(firebase, "votes"),
+  competitionName: dataToJS(firebase, "competitionName")
 }))
 export default class Results extends Component {
   constructor(props) {
@@ -101,8 +102,9 @@ export default class Results extends Component {
   }
 
   render() {
-    const { votes } = this.props;
-    if (!isLoaded(votes)) return null;
+    const { competitionName } = this.props;
+    if (!isLoaded(competitionName)) return null;
+    const votes = this.props.votes[competitionName];
 
     const votesLength = size(votes);
     const total = generateResults(votes, this.state.maxVoters, votesLength);
