@@ -37,9 +37,11 @@ const enhance = compose(
 class OptionsList extends Component {
   constructor(props) {
     super(props);
+    const { account } = this.props;
     this.state = {
       newOption: "",
-      wasSaved: false
+      wasSaved: false,
+      user: account.displayName
     };
   }
 
@@ -50,17 +52,17 @@ class OptionsList extends Component {
   };
 
   handleAdd = () => {
-    const { competitionName, account } = this.props;
-    const { newOption } = this.state;
+    const { competitionName } = this.props;
+    const { newOption, user } = this.state;
 
     if (!newOption) {
       return;
     }
-    this.setState({ newOption: "" });
+    this.setState({ newOption: "", user: "" });
     return this.props.firebase
       .push("/options/" + competitionName, {
         text: newOption,
-        user: account.displayName
+        user: user
       })
       .then(() => {
         this.setState({ wasSaved: true });
@@ -83,6 +85,13 @@ class OptionsList extends Component {
               onKeyPress={this.handleKeyPress}
               onChange={({ target }) =>
                 this.setState({ newOption: target.value })}
+            />
+            <br />
+            <TextField
+              value={this.state.user}
+              floatingLabelText="Chef's name"
+              onKeyPress={this.handleKeyPress}
+              onChange={({ target }) => this.setState({ user: target.value })}
             />
             <br />
             <RaisedButton

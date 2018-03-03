@@ -37,7 +37,7 @@ const ScoreWithOptions = ({
           option =>
             shouldShowOption(option, currentVote, selectedOption) ? (
               <MenuItem
-                value={option.text}
+                value={option}
                 primaryText={option.text}
                 key={option.text}
               />
