@@ -94,7 +94,7 @@ class OptionsList extends Component {
           </div>
         ) : (
           <p className={classes.warningMessage}>
-            You must login before adding you dish
+            You must login before adding your dish
           </p>
         )}
         <List className={classes.list}>
