@@ -48,6 +48,12 @@ const generateResults = (votes, maxVoters) => {
     }
     voters++;
     forEach(userVotesObject, (val, key) => {
+      if (val && !val.text) {
+        const originalVal = val;
+        val = {
+          text: originalVal
+        };
+      }
       if (val && val.text) {
         const score = parseInt(key);
         if (results.hasOwnProperty(val.text)) {
