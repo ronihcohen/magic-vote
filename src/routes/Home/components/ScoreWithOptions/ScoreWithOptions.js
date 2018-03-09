@@ -11,10 +11,10 @@ const points = value => {
 };
 
 const shouldShowOption = (option, currentVote, selectedOption) => {
-  if (option.text === selectedOption) {
+  if (selectedOption && option.text === selectedOption.text) {
     return true;
   }
-  return !find(currentVote, (vote, id) => vote === option.text);
+  return !find(currentVote, (vote, id) => vote.text === option.text);
 };
 
 const ScoreWithOptions = ({
