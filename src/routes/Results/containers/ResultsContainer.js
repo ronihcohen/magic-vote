@@ -83,7 +83,10 @@ export default class Results extends Component {
 
   @keydown("n")
   next(event) {
-    if (this.state.maxVoters !== size(this.props.votes)) {
+    if (
+      this.state.maxVoters !==
+      size(this.props.votes[this.props.competitionName])
+    ) {
       this.setState({
         maxVoters: this.state.maxVoters + 1,
         showTotal: false
