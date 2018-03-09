@@ -1,0 +1,37 @@
+@import "base";
+.container {
+  height: 100%;
+  display: flex;
+  padding: 50px;
+  font-size: large;
+  justify-content: space-evenly;
+  text-align: center;
+}
+
+h1 {
+  text-align: center;
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.title {
+  font-weight: bold;
+  font-size: larger;
+}
+
+.option {
+  background: linear-gradient(
+    180deg,
+    #e1ffff,
+    #e1ffff 7%,
+    #e1ffff 12%,
+    #fdffff
+  );
+  padding: 10px 30px;
+  box-shadow: 0 0 20px 0 grey;
+  border-radius: 10px;
+}

@@ -10,6 +10,7 @@ import NotFoundRoute from "./NotFound";
 import OptionsRoute from "./Options";
 import ConfigRoute from "./Config";
 import ResultsRoute from "./Results";
+import CompetitorsRoute from "./Competitors";
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -25,6 +26,7 @@ export const createRoutes = store => ({
     SignupRoute,
     ResultsRoute,
     ConfigRoute,
+    CompetitorsRoute,
     ProjectsRoute(store), // async route definitions recieve store
     RecoverRoute(store), // async route definitions recieve store
     /* Place all Routes above here so NotFoundRoute can act as a 404 page */
