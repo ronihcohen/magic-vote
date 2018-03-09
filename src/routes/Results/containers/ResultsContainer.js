@@ -19,8 +19,8 @@ const sortVotesByScore = (votes, invert) => {
     map(votes, (val, key) => {
       if (!val) return;
       return {
-        option: invert ? val : key,
-        score: invert ? key : val
+        option: invert ? val : { text: key, user: val.user },
+        score: invert ? key : val.score
       };
     }),
     "score"
@@ -50,9 +50,11 @@ const generateResults = (votes, maxVoters) => {
     forEach(userVotesObject, (val, key) => {
       if (val && val.text) {
         const score = parseInt(key);
-        results[val.text] = results.hasOwnProperty(val.text)
-          ? results[val.text] + score
-          : score;
+        if (results.hasOwnProperty(val.text)) {
+          results[val.text].score = results[val.text].score + score;
+        } else {
+          results[val.text] = { score: score, user: val.user };
+        }
       }
     });
   });

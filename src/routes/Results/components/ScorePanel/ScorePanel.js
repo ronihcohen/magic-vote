@@ -27,9 +27,7 @@ const ScorePanel = ({ votes, header, fadeIn }) => (
                 className={classes.score}
                 style={fadeIn ? styles.fadeIn : null}
               >
-                <div className={classes.title}>
-                  {value.option.text || value.option}
-                </div>
+                <div className={classes.title}>{value.option.text}</div>
                 <div className={classes.subTitle}>{value.option.user}</div>
                 <br />
                 <Score value={value.score} />
