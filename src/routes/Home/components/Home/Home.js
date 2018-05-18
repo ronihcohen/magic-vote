@@ -65,7 +65,7 @@ class Home extends Component {
 
   state = {
     error: null,
-    currentVote: {},
+    currentVote: JSON.parse(localStorage.getItem("currentVote")) || {},
     submitting: false
   };
 
@@ -75,6 +75,7 @@ class Home extends Component {
     this.setState({
       currentVote: newVote
     });
+    localStorage.setItem("currentVote", JSON.stringify(newVote));
   };
 
   getUserVotesSize = () => {
@@ -145,6 +146,7 @@ class Home extends Component {
     this.setState({
       currentVote: {}
     });
+    localStorage.removeItem("currentVote");
   }
 
   componentWillMount() {
