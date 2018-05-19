@@ -11,7 +11,7 @@ const points = value => {
 };
 
 const shouldShowOption = (option, currentVote, selectedOption) => {
-  if (option.text === selectedOption) {
+  if (selectedOption && option.text === selectedOption.text) {
     return true;
   }
   return !find(currentVote, (vote, id) => vote.text === option.text);
@@ -29,8 +29,8 @@ const ScoreWithOptions = ({
       <Score value={value} />
       <SelectField
         style={{ marginLeft: "20px" }}
-        hintStyle={{ color: "black" }}
-        hintText={selectedOption ? selectedOption.text : `?`}
+        value={selectedOption}
+        hintText={`Your vote for ${value} ${points(value)}`}
         onChange={(event, index, option) => handleChange(value, option)}
       >
         {options.map(
