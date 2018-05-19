@@ -20,7 +20,7 @@ import defaultUserImage from "static/User.png";
 import classes from "./Navbar.scss";
 
 const buttonStyle = {
-  color: "white",
+  color: "black",
   textDecoration: "none",
   alignSelf: "center"
 };
@@ -77,7 +77,7 @@ export default class Navbar extends Component {
             <span className={`${classes["avatar-text-name"]} hidden-mobile`}>
               {account && account.displayName ? account.displayName : "User"}
             </span>
-            <DownArrow color="white" />
+            <DownArrow color="black" />
           </div>
         </div>
       </IconButton>
@@ -105,12 +105,13 @@ export default class Navbar extends Component {
     );
 
     return (
-      <AppBar
-        showMenuIconButton={false}
-        iconElementRight={isLoaded(auth, account) ? rightMenu : null}
-        iconStyleRight={authExists ? avatarStyles.wrapper : {}}
-        className={classes.appBar}
-      />
+      <div
+        style={{
+          textAlign: "right"
+        }}
+      >
+        {isLoaded(auth, account) ? rightMenu : null}
+      </div>
     );
   }
 }
