@@ -28,8 +28,9 @@ const ScoreWithOptions = ({
     <div className={classes.container}>
       <Score value={value} />
       <SelectField
+        floatingLabelStyle={{ color: "black" }}
+        floatingLabelText={selectedOption ? selectedOption.text : ""}
         style={{ marginLeft: "20px" }}
-        value={selectedOption}
         hintText={`Your vote for ${value} ${points(value)}`}
         onChange={(event, index, option) => handleChange(value, option)}
       >
